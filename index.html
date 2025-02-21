@@ -23,31 +23,34 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 5px;
-            width: 80%;
-            max-width: 500px;
+            gap: 3px;
+            width: 70%;
+            max-width: 400px;
         }
 
         .categoria {
             background: lightgray;
-            padding: 5px;
-            font-size: 14px;
+            padding: 3px;
+            font-size: 12px;
             font-weight: bold;
             text-align: center;
             cursor: pointer;
             border: none;
             text-transform: uppercase;
+            width: 95%;
+            height: 25px;
         }
 
         .puntos {
             background: blue;
             color: white;
-            font-size: 16px;
-            padding: 10px;
+            font-size: 14px;
+            padding: 5px;
             cursor: pointer;
             border-radius: 3px;
             border: none;
-            width: 100%;
+            width: 95%;
+            height: 30px;
             text-align: center;
         }
 
@@ -57,16 +60,16 @@
 
         #seleccion {
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
     <div class="contenedor">
-        <h2>Trivia en Minecraft</h2>
+        <h2 style="font-size: 18px;">Trivia en Minecraft</h2>
 
-        <!-- Categorías editables -->
+        <!-- Categorías más pequeñas -->
         <div class="grid">
             <input type="text" class="categoria" value="Categoría 1">
             <input type="text" class="categoria" value="Categoría 2">
@@ -74,7 +77,7 @@
             <input type="text" class="categoria" value="Categoría 4">
         </div>
 
-        <!-- Puntos por categoría -->
+        <!-- Puntos más compactos -->
         <div class="grid">
             <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
             <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
