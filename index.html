@@ -6,27 +6,59 @@
     <title>Trivia en Minecraft</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
-        button { font-size: 20px; padding: 10px; margin: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 60%; margin: auto; }
+        .categoria { background: lightgray; padding: 10px; font-size: 20px; font-weight: bold; text-align: center; cursor: pointer; }
+        .puntos { background: blue; color: white; font-size: 24px; padding: 20px; cursor: pointer; border-radius: 5px; }
+        .puntos:hover { background: darkblue; }
     </style>
 </head>
 <body>
-    <h1>Trivia en Minecraft</h1>
-    <p>¿Cuál es la capital de Francia?</p>
-    <button onclick="respuesta(1)">A) Berlín</button>
-    <button onclick="respuesta(2)">B) Madrid</button>
-    <button onclick="respuesta(3)">C) París</button>
-    <button onclick="respuesta(4)">D) Roma</button>
 
-    <p id="resultado"></p>
+    <h1>Trivia en Minecraft</h1>
+
+    <!-- Categorías editables -->
+    <div class="grid">
+        <input type="text" class="categoria" value="Categoría 1">
+        <input type="text" class="categoria" value="Categoría 2">
+        <input type="text" class="categoria" value="Categoría 3">
+        <input type="text" class="categoria" value="Categoría 4">
+    </div>
+
+    <!-- Puntos por categoría -->
+    <div class="grid">
+        <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+        <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+        <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+        <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+
+        <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+        <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+        <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+        <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+
+        <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+        <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+        <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+        <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+
+        <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+        <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+        <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+        <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+
+        <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+        <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+        <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+        <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+    </div>
+
+    <p id="seleccion"></p>
 
     <script>
-        function respuesta(opcion) {
-            if (opcion === 3) {
-                document.getElementById("resultado").innerHTML = "✅ ¡Correcto!";
-            } else {
-                document.getElementById("resultado").innerHTML = "❌ Incorrecto. Intenta otra vez.";
-            }
+        function seleccionarPuntos(valor) {
+            document.getElementById("seleccion").innerText = "Seleccionaste " + valor + " puntos.";
         }
     </script>
+
 </body>
 </html>
