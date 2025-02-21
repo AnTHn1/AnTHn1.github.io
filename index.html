@@ -5,54 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trivia en Minecraft</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 60%; margin: auto; }
-        .categoria { background: lightgray; padding: 10px; font-size: 20px; font-weight: bold; text-align: center; cursor: pointer; }
-        .puntos { background: blue; color: white; font-size: 24px; padding: 20px; cursor: pointer; border-radius: 5px; }
-        .puntos:hover { background: darkblue; }
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center;
+            background-color: #222; 
+            color: white; 
+        }
+        
+        .contenedor {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .categoria {
+            background: lightgray;
+            padding: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+        }
+
+        .puntos {
+            background: blue;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            border: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .puntos:hover {
+            background: darkblue;
+        }
+
+        #seleccion {
+            margin-top: 10px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Trivia en Minecraft</h1>
+    <div class="contenedor">
+        <h2>Trivia en Minecraft</h2>
 
-    <!-- Categorías editables -->
-    <div class="grid">
-        <input type="text" class="categoria" value="Categoría 1">
-        <input type="text" class="categoria" value="Categoría 2">
-        <input type="text" class="categoria" value="Categoría 3">
-        <input type="text" class="categoria" value="Categoría 4">
+        <!-- Categorías editables -->
+        <div class="grid">
+            <input type="text" class="categoria" value="Categoría 1">
+            <input type="text" class="categoria" value="Categoría 2">
+            <input type="text" class="categoria" value="Categoría 3">
+            <input type="text" class="categoria" value="Categoría 4">
+        </div>
+
+        <!-- Puntos por categoría -->
+        <div class="grid">
+            <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+            <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+            <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+            <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+
+            <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+            <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+            <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+            <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+
+            <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+            <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+            <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+            <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+
+            <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+            <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+            <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+            <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+
+            <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+            <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+            <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+            <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+        </div>
+
+        <p id="seleccion"></p>
     </div>
-
-    <!-- Puntos por categoría -->
-    <div class="grid">
-        <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
-        <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
-        <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
-        <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
-
-        <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
-        <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
-        <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
-        <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
-
-        <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
-        <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
-        <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
-        <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
-
-        <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
-        <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
-        <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
-        <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
-
-        <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
-        <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
-        <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
-        <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
-    </div>
-
-    <p id="seleccion"></p>
 
     <script>
         function seleccionarPuntos(valor) {
