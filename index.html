@@ -8,8 +8,12 @@
         body { 
             font-family: Arial, sans-serif; 
             text-align: center;
-            background-color: #222; 
+            background: linear-gradient(to bottom, #A8E6CF, #D0E6FA); /* Degradado verde pastel a celeste */
             color: white; 
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .contenedor {
@@ -29,9 +33,10 @@
         }
 
         .categoria {
-            background: #FFD700; /* Amarillo para diferenciar */
+            background: black; /* Negro */
+            color: white; /* Texto en blanco */
             padding: 4px;
-            font-size: 11px; /* Reducido más */
+            font-size: 11px;
             font-weight: bold;
             text-align: center;
             cursor: pointer;
@@ -44,7 +49,7 @@
         }
 
         .puntos {
-            background: blue;
+            background: #B39DDB; /* Morado pastel */
             color: white;
             font-size: 12px;
             padding: 5px;
@@ -57,7 +62,7 @@
         }
 
         .puntos:hover {
-            background: darkblue;
+            background: #9575CD; /* Morado más oscuro al pasar el mouse */
         }
 
         #seleccion {
