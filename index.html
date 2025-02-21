@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia en Minecraft</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        button { font-size: 20px; padding: 10px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Trivia en Minecraft</h1>
+    <p>¿Cuál es la capital de Francia?</p>
+    <button onclick="respuesta(1)">A) Berlín</button>
+    <button onclick="respuesta(2)">B) Madrid</button>
+    <button onclick="respuesta(3)">C) París</button>
+    <button onclick="respuesta(4)">D) Roma</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        function respuesta(opcion) {
+            if (opcion === 3) {
+                document.getElementById("resultado").innerHTML = "✅ ¡Correcto!";
+            } else {
+                document.getElementById("resultado").innerHTML = "❌ Incorrecto. Intenta otra vez.";
+            }
+        }
+    </script>
+</body>
+</html>
