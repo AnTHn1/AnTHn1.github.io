@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivia en Minecraft</title>
+    <meta name="viewport" content="width=992, height=480, initial-scale=1.0">
+    <title>Trivia</title>
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -13,7 +13,8 @@
             height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Subido el contenido */
+            padding-top: 10px; /* Ajuste adicional */
         }
         
         .contenedor {
@@ -27,7 +28,7 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px; /* Más separación entre columnas */
+            gap: 25px; /* Más separación entre columnas */
             width: 80%;
             max-width: 480px;
         }
@@ -43,9 +44,9 @@
             border: none;
             text-transform: uppercase;
             width: 95%; /* Más pequeñas */
-            height: 30px; /* Reducido */
+            height: 28px; /* Ajustado */
             border-radius: 5px;
-            margin-bottom: 5px; /* Movidas un poco hacia arriba */
+            margin-bottom: 3px; /* Ajustado para subir más */
         }
 
         .puntos {
@@ -65,16 +66,11 @@
             background: #9575CD; /* Morado más oscuro al pasar el mouse */
         }
 
-        #seleccion {
-            margin-top: 10px;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
 
     <div class="contenedor">
-        <h2 style="font-size: 16px;">Trivia en Minecraft</h2>
 
         <!-- Categorías con más separación y tamaño reducido -->
         <div class="grid">
@@ -86,40 +82,33 @@
 
         <!-- Puntos -->
         <div class="grid">
-            <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
-            <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
-            <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
-            <button class="puntos" onclick="seleccionarPuntos(100)">100</button>
+            <button class="puntos">100</button>
+            <button class="puntos">100</button>
+            <button class="puntos">100</button>
+            <button class="puntos">100</button>
 
-            <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
-            <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
-            <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
-            <button class="puntos" onclick="seleccionarPuntos(200)">200</button>
+            <button class="puntos">200</button>
+            <button class="puntos">200</button>
+            <button class="puntos">200</button>
+            <button class="puntos">200</button>
 
-            <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
-            <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
-            <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
-            <button class="puntos" onclick="seleccionarPuntos(300)">300</button>
+            <button class="puntos">300</button>
+            <button class="puntos">300</button>
+            <button class="puntos">300</button>
+            <button class="puntos">300</button>
 
-            <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
-            <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
-            <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
-            <button class="puntos" onclick="seleccionarPuntos(400)">400</button>
+            <button class="puntos">400</button>
+            <button class="puntos">400</button>
+            <button class="puntos">400</button>
+            <button class="puntos">400</button>
 
-            <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
-            <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
-            <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
-            <button class="puntos" onclick="seleccionarPuntos(500)">500</button>
+            <button class="puntos">500</button>
+            <button class="puntos">500</button>
+            <button class="puntos">500</button>
+            <button class="puntos">500</button>
         </div>
 
-        <p id="seleccion"></p>
     </div>
-
-    <script>
-        function seleccionarPuntos(valor) {
-            document.getElementById("seleccion").innerText = "Seleccionaste " + valor + " puntos.";
-        }
-    </script>
 
 </body>
 </html>
