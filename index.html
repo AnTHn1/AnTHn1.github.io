@@ -40,6 +40,49 @@
             opacity: 0;
             pointer-events: none;
         }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 35px;
+            width: 90%;
+            max-width: 550px;
+        }
+
+        .categoria {
+            background: black;
+            color: white;
+            padding: 8px;
+            font-size: clamp(10px, 3vw, 14px);
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            text-transform: uppercase;
+            width: 100%;
+            min-height: 35px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .puntos {
+            background: #B39DDB;
+            color: white;
+            font-size: 16px;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+            height: 38px;
+            text-align: center;
+        }
+
+        .puntos:hover {
+            background: #9575CD;
+        }
     </style>
 </head>
 <body>
@@ -82,6 +125,16 @@
                 div.className = "categoria";
                 div.textContent = categoria;
                 categoriasGrid.appendChild(div);
+            });
+            
+            let valoresPuntos = [100, 200, 300, 400, 500];
+            valoresPuntos.forEach(puntos => {
+                for (let i = 0; i < categorias.length; i++) {
+                    let boton = document.createElement("button");
+                    boton.className = "puntos";
+                    boton.textContent = puntos;
+                    puntosGrid.appendChild(boton);
+                }
             });
         }
 
