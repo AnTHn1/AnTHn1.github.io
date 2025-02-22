@@ -2,108 +2,114 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=992, height=480, initial-scale=1.0">
     <title>Trivia</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
+        body {
+            font-family: Arial, sans-serif;
             text-align: center;
             background: url('https://asset.gecdesigns.com/img/background-templates/green-gradient-abstract-wavy-background-template-10032404-1710079015776-cover.webp') no-repeat center center fixed;
             background-size: cover;
-            color: white; 
+            color: white;
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
-        .contenedor {
+        .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 35px;
             width: 90%;
-            max-width: 600px;
+            max-width: 550px;
         }
 
-        .categoria, .puntos {
+        .categoria {
             background: black;
             color: white;
-            padding: 10px;
-            font-size: 16px;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: bold;
             text-align: center;
-            border: none;
+            text-transform: uppercase;
             border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .puntos {
+            background: #B39DDB;
+            color: white;
+            font-size: 16px;
+            padding: 8px;
             cursor: pointer;
-        }
-
-        .puntos { 
-            background: #B39DDB; 
-        }
-
-        .puntos:hover { 
-            background: #9575CD; 
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+            height: 38px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
     </style>
 </head>
 <body>
-    <div class="contenedor" id="contenedorTrivia"></div>
-    <button id="botonSiguiente" onclick="nuevaRonda()" style="display:none;">Siguiente Ronda</button>
+
+    <div class="grid" id="categoriasGrid"></div>
+    <div class="grid" id="puntosGrid"></div>
+
     <script>
         let ronda = 1;
-        let preguntasUsadas = 0;
-        let totalPreguntas = 16;
-        
         let preguntasRondas = {
             1: {
                 categorias: ["Historia", "Ciencia", "Arte", "Deportes"],
                 preguntas: {
-                    100: ["¿Quién descubrió América?", "¿Qué planeta es el más grande?", "¿Quién pintó 'La última cena'?", "¿Cuántos jugadores hay en un equipo de fútbol?"],
-                    200: ["¿Cuándo fue la Revolución Francesa?", "¿Cuál es el símbolo químico del oro?", "¿Qué pintor cortó su propia oreja?", "¿Cuántos puntos vale un triple en baloncesto?"],
+                    100: ["Pregunta Historia 100", "Pregunta Ciencia 100", "Pregunta Arte 100", "Pregunta Deportes 100"],
+                    200: ["Pregunta Historia 200", "Pregunta Ciencia 200", "Pregunta Arte 200", "Pregunta Deportes 200"],
+                    300: ["Pregunta Historia 300", "Pregunta Ciencia 300", "Pregunta Arte 300", "Pregunta Deportes 300"],
+                    400: ["Pregunta Historia 400", "Pregunta Ciencia 400", "Pregunta Arte 400", "Pregunta Deportes 400"],
+                    500: ["Pregunta Historia 500", "Pregunta Ciencia 500", "Pregunta Arte 500", "Pregunta Deportes 500"]
                 }
             }
         };
 
         function generarTablero() {
-            let contenedor = document.getElementById("contenedorTrivia");
-            contenedor.innerHTML = "";
-            
+            let categoriasGrid = document.getElementById("categoriasGrid");
+            let puntosGrid = document.getElementById("puntosGrid");
+            categoriasGrid.innerHTML = "";
+            puntosGrid.innerHTML = "";
+
             let datos = preguntasRondas[ronda];
+
             datos.categorias.forEach((categoria, index) => {
-                let div = document.createElement("div");
-                div.className = "categoria";
-                div.textContent = categoria;
-                contenedor.appendChild(div);
-            });
-            
-            [100, 200].forEach(puntos => {
-                datos.categorias.forEach((_, index) => {
-                    let boton = document.createElement("button");
-                    boton.className = "puntos";
-                    boton.textContent = puntos;
-                    boton.onclick = () => mostrarPregunta(puntos, index, boton);
-                    contenedor.appendChild(boton);
-                });
-            });
-        }
+                setTimeout(() => {
+                    let div = document.createElement("div");
+                    div.className = "categoria";
+                    div.textContent = categoria;
+                    categoriasGrid.appendChild(div);
+                    div.style.opacity = "1";
+                    
+                    setTimeout(() => {
+                        Object.keys(datos.preguntas).forEach((puntos, i) => {
+                            setTimeout(() => {
+                                let boton = document.createElement("button");
+                                boton.className = "puntos";
+                                boton.textContent = puntos;
+                                puntosGrid.appendChild(boton);
+                                boton.style.opacity = "1";
+                            }, i * 300);
+                        });
+                    }, 500);
 
-        function mostrarPregunta(puntos, categoriaIndex, boton) {
-            alert(preguntasRondas[ronda].preguntas[puntos][categoriaIndex]);
-            boton.disabled = true;
-            boton.style.opacity = "0.5";
-            preguntasUsadas++;
-            if (preguntasUsadas === totalPreguntas) {
-                document.getElementById("botonSiguiente").style.display = "block";
-            }
-        }
-
-        function nuevaRonda() {
-            ronda++;
-            document.getElementById("botonSiguiente").style.display = "none";
-            generarTablero();
+                }, index * 1000);
+            });
         }
 
         generarTablero();
     </script>
+
 </body>
 </html>
