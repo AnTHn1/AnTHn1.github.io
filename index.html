@@ -1,4 +1,39 @@
-<style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=992, height=480, initial-scale=1.0">
+    <title>Trivia</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center;
+            background: url('https://asset.gecdesigns.com/img/background-templates/green-gradient-abstract-wavy-background-template-10032404-1710079015776-cover.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .contenedor {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 35px;
+            width: 90%;
+            max-width: 550px;
+        }
+
     .categoria {
         background: black;
         color: white;
@@ -17,4 +52,154 @@
         justify-content: center;
         transform: translateX(-10px); /* Desplazamiento ligero a la izquierda */
     }
-</style>
+
+        .puntos {
+            background: #B39DDB;
+            color: white;
+            font-size: 16px;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+            height: 38px;
+            text-align: center;
+        }
+
+        .puntos:hover {
+            background: #9575CD;
+        }
+
+        .pregunta-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            display: none;
+        }
+
+        .boton-volver, .boton-siguiente {
+            background: #FF5252;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .boton-volver:hover, .boton-siguiente:hover {
+            background: #D32F2F;
+        }
+
+        .boton-siguiente {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor" id="contenedorPrincipal">
+        <div class="grid" id="categoriasGrid"></div>
+        <br>
+        <div class="grid" id="puntosGrid"></div>
+    </div>
+
+    <button class="boton-siguiente" id="botonSiguiente" onclick="nuevaRonda()">Siguiente Ronda</button>
+
+    <div class="pregunta-container" id="preguntaContainer">
+        <p class="pregunta-texto" id="preguntaTexto"></p>
+        <button class="boton-volver" onclick="volver()">Volver</button>
+    </div>
+
+    <script>
+        let ronda = 1;
+        let botonesActivos = [];
+        let preguntasRondas = {
+            1: {
+                categorias: ["Historia", "Ciencia", "Arte", "Deportes"],
+                preguntas: {
+                    100: { 1: "¿Quién descubrió América?", 2: "¿Qué planeta es el más grande?", 3: "¿Quién pintó 'La última cena'?", 4: "¿Cuántos jugadores hay en un equipo de fútbol?" },
+                    200: { 1: "¿Cuándo fue la Revolución Francesa?", 2: "¿Cuál es el símbolo químico del oro?", 3: "¿Qué pintor cortó su propia oreja?", 4: "¿Cuántos puntos vale un triple en baloncesto?" },
+                    300: { 1: "¿Quién fue Napoleón Bonaparte?", 2: "¿Cuál es el gas más abundante en la atmósfera?", 3: "¿Qué arte usa el torno?", 4: "¿En qué deporte se usa una red y una pelota?" },
+                    400: { 1: "¿Qué país construyó la Gran Muralla China?", 2: "¿Qué unidad mide la resistencia eléctrica?", 3: "¿Qué artista hizo la Capilla Sixtina?", 4: "¿Dónde se juega el Super Bowl?" },
+                    500: { 1: "¿En qué año terminó la Segunda Guerra Mundial?", 2: "¿Cuál es el metal más ligero?", 3: "¿Qué corriente artística creó Picasso?", 4: "¿Cuántos jugadores hay en un equipo de voleibol?" }
+                }
+            },
+            2: {
+                categorias: ["Geografía", "Tecnología", "Literatura", "Música"],
+                preguntas: {
+                    100: { 1: "¿Cuál es el país más grande del mundo?", 2: "¿Quién inventó la computadora?", 3: "¿Quién escribió 'Cien años de soledad'?", 4: "¿Quién es el 'Rey del Pop'?" },
+                    200: { 1: "¿Qué continente tiene más países?", 2: "¿Qué significa 'WWW' en internet?", 3: "¿Qué novela empieza con 'En un lugar de La Mancha'?", 4: "¿Quién cantó 'Bohemian Rhapsody'?" },
+                    300: { 1: "¿Dónde están las pirámides de Giza?", 2: "¿Qué empresa creó el iPhone?", 3: "¿Quién escribió 'Romeo y Julieta'?", 4: "¿Cuál es el himno de la UEFA Champions League?" },
+                    400: { 1: "¿Cuál es el océano más grande?", 2: "¿Qué es un transistor?", 3: "¿Quién es el autor de 'El principito'?", 4: "¿Qué banda creó el álbum 'The Dark Side of the Moon'?" },
+                    500: { 1: "¿Cuántos continentes hay?", 2: "¿Qué es la inteligencia artificial?", 3: "¿Quién escribió 'La Odisea'?", 4: "¿Qué famoso compositor perdió la audición?" }
+                }
+            }
+        };
+
+        function generarTablero() {
+            let categoriasGrid = document.getElementById("categoriasGrid");
+            let puntosGrid = document.getElementById("puntosGrid");
+
+            categoriasGrid.innerHTML = "";
+            puntosGrid.innerHTML = "";
+            botonesActivos = [];
+
+            let datos = preguntasRondas[ronda];
+            datos.categorias.forEach(categoria => {
+                let div = document.createElement("div");
+                div.className = "categoria";
+                div.textContent = categoria;
+                categoriasGrid.appendChild(div);
+            });
+
+            Object.keys(datos.preguntas).forEach(puntos => {
+                for (let i = 1; i <= 4; i++) {
+                    let boton = document.createElement("button");
+                    boton.className = "puntos";
+                    boton.textContent = puntos;
+                    boton.onclick = () => mostrarPregunta(boton, puntos, i);
+                    botonesActivos.push(boton);
+                    puntosGrid.appendChild(boton);
+                }
+            });
+        }
+
+        function mostrarPregunta(boton, puntos, numero) {
+            document.getElementById("contenedorPrincipal").style.display = "none";
+            document.getElementById("preguntaTexto").textContent = preguntasRondas[ronda].preguntas[puntos][numero];
+            document.getElementById("preguntaContainer").style.display = "block";
+            boton.style.visibility = "hidden";
+            botonesActivos = botonesActivos.filter(b => b !== boton);
+
+            if (botonesActivos.length === 0) {
+                document.getElementById("botonSiguiente").style.display = "block";
+            }
+        }
+
+        function volver() {
+            document.getElementById("preguntaContainer").style.display = "none";
+            document.getElementById("contenedorPrincipal").style.display = "flex";
+        }
+
+        function nuevaRonda() {
+            ronda++;
+            document.getElementById("botonSiguiente").style.display = "none";
+            generarTablero();
+        }
+
+        generarTablero();
+    </script>
+
+</body>
+</html>
+
