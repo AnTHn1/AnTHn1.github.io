@@ -34,10 +34,6 @@
             max-width: 550px;
         }
 
-        .grid:first-of-type {
-            margin-left: -10px;
-        }
-
         .categoria {
             background: black;
             color: white;
@@ -51,8 +47,6 @@
             min-height: 35px;
             border-radius: 5px;
             margin-bottom: 5px;
-            word-wrap: break-word;
-            white-space: normal;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,13 +85,7 @@
             display: none;
         }
 
-        .pregunta-texto {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .boton-volver {
+        .boton-volver, .boton-siguiente {
             background: #FF5252;
             color: white;
             border: none;
@@ -105,50 +93,27 @@
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
+            margin-top: 10px;
         }
 
-        .boton-volver:hover {
+        .boton-volver:hover, .boton-siguiente:hover {
             background: #D32F2F;
+        }
+
+        .boton-siguiente {
+            display: none;
         }
     </style>
 </head>
 <body>
 
     <div class="contenedor" id="contenedorPrincipal">
-        <div class="grid">
-            <div class="categoria">CORTO</div>
-            <div class="categoria">TEXTO</div>
-            <div class="categoria">LARGO</div>
-            <div class="categoria">MUY LARGO EJEMPLO</div>
-        </div>
+        <div class="grid" id="categoriasGrid"></div>
         <br>
-        <div class="grid">
-            <button class="puntos" onclick="mostrarPregunta(this, 100, 1)">100</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 100, 2)">100</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 100, 3)">100</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 100, 4)">100</button>
-
-            <button class="puntos" onclick="mostrarPregunta(this, 200, 1)">200</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 200, 2)">200</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 200, 3)">200</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 200, 4)">200</button>
-
-            <button class="puntos" onclick="mostrarPregunta(this, 300, 1)">300</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 300, 2)">300</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 300, 3)">300</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 300, 4)">300</button>
-
-            <button class="puntos" onclick="mostrarPregunta(this, 400, 1)">400</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 400, 2)">400</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 400, 3)">400</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 400, 4)">400</button>
-
-            <button class="puntos" onclick="mostrarPregunta(this, 500, 1)">500</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 500, 2)">500</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 500, 3)">500</button>
-            <button class="puntos" onclick="mostrarPregunta(this, 500, 4)">500</button>
-        </div>
+        <div class="grid" id="puntosGrid"></div>
     </div>
+
+    <button class="boton-siguiente" id="botonSiguiente" onclick="nuevaRonda()">Siguiente Ronda</button>
 
     <div class="pregunta-container" id="preguntaContainer">
         <p class="pregunta-texto" id="preguntaTexto"></p>
@@ -156,28 +121,82 @@
     </div>
 
     <script>
-        const preguntas = {
-            100: { 1: "¿Cuál es la capital de Francia?", 2: "¿Cuántos lados tiene un triángulo?", 3: "¿Cuál es el océano más grande?", 4: "¿En qué año llegó el hombre a la Luna?" },
-            200: { 1: "¿Qué planeta es conocido como el planeta rojo?", 2: "¿Cuántos continentes hay en el mundo?", 3: "¿Quién pintó la Mona Lisa?", 4: "¿Cuántos corazones tiene un pulpo?" },
-            300: { 1: "¿En qué país se encuentra la Gran Muralla China?", 2: "¿Quién escribió 'Don Quijote de la Mancha'?", 3: "¿Cuál es el elemento químico con símbolo 'O'?", 4: "¿Qué animal es el más grande del mundo?" },
-            400: { 1: "¿Cuántos jugadores tiene un equipo de fútbol en el campo?", 2: "¿En qué año terminó la Segunda Guerra Mundial?", 3: "¿Cuál es la moneda de Japón?", 4: "¿Quién descubrió la gravedad?" },
-            500: { 1: "¿Cuál es el país más poblado del mundo?", 2: "¿Cuántos huesos tiene el cuerpo humano?", 3: "¿Cuál es la lengua más hablada en el mundo?", 4: "¿Qué científico desarrolló la teoría de la relatividad?" }
+        let ronda = 1;
+        let botonesActivos = [];
+        let preguntasRondas = {
+            1: {
+                categorias: ["Historia", "Ciencia", "Arte", "Deportes"],
+                preguntas: {
+                    100: { 1: "¿Quién descubrió América?", 2: "¿Qué planeta es el más grande?", 3: "¿Quién pintó 'La última cena'?", 4: "¿Cuántos jugadores hay en un equipo de fútbol?" },
+                    200: { 1: "¿Cuándo fue la Revolución Francesa?", 2: "¿Cuál es el símbolo químico del oro?", 3: "¿Qué pintor cortó su propia oreja?", 4: "¿Cuántos puntos vale un triple en baloncesto?" }
+                }
+            },
+            2: {
+                categorias: ["Geografía", "Tecnología", "Literatura", "Música"],
+                preguntas: {
+                    100: { 1: "¿Cuál es el país más grande del mundo?", 2: "¿Quién inventó la computadora?", 3: "¿Quién escribió 'Cien años de soledad'?", 4: "¿Quién es el 'Rey del Pop'?" },
+                    200: { 1: "¿Qué continente tiene más países?", 2: "¿Qué significa 'WWW' en internet?", 3: "¿Qué novela empieza con 'En un lugar de La Mancha'?", 4: "¿Quién cantó 'Bohemian Rhapsody'?" }
+                }
+            }
         };
 
-        let botonSeleccionado = null;
+        function generarTablero() {
+            let categoriasGrid = document.getElementById("categoriasGrid");
+            let puntosGrid = document.getElementById("puntosGrid");
+
+            categoriasGrid.innerHTML = "";
+            puntosGrid.innerHTML = "";
+            botonesActivos = [];
+
+            let datos = preguntasRondas[ronda];
+            datos.categorias.forEach(categoria => {
+                let div = document.createElement("div");
+                div.className = "categoria";
+                div.textContent = categoria;
+                categoriasGrid.appendChild(div);
+            });
+
+            Object.keys(datos.preguntas).forEach(puntos => {
+                for (let i = 1; i <= 4; i++) {
+                    let boton = document.createElement("button");
+                    boton.className = "puntos";
+                    boton.textContent = puntos;
+                    boton.onclick = () => mostrarPregunta(boton, puntos, i);
+                    botonesActivos.push(boton);
+                    puntosGrid.appendChild(boton);
+                }
+            });
+        }
 
         function mostrarPregunta(boton, puntos, numero) {
-            botonSeleccionado = boton;
             document.getElementById("contenedorPrincipal").style.display = "none";
-            document.getElementById("preguntaTexto").textContent = preguntas[puntos][numero];
+            document.getElementById("preguntaTexto").textContent = preguntasRondas[ronda].preguntas[puntos][numero];
             document.getElementById("preguntaContainer").style.display = "block";
+            boton.style.visibility = "hidden";
+            botonesActivos = botonesActivos.filter(b => b !== boton);
+
+            if (botonesActivos.length === 0) {
+                document.getElementById("botonSiguiente").style.display = "block";
+            }
         }
 
         function volver() {
-            if (botonSeleccionado) botonSeleccionado.style.visibility = "hidden";
             document.getElementById("preguntaContainer").style.display = "none";
             document.getElementById("contenedorPrincipal").style.display = "flex";
         }
+
+        function nuevaRonda() {
+            ronda++;
+            if (!preguntasRondas[ronda]) {
+                alert("No hay más rondas disponibles.");
+                return;
+            }
+            document.getElementById("botonSiguiente").style.display = "none";
+            generarTablero();
+            document.getElementById("contenedorPrincipal").style.display = "flex";
+        }
+
+        generarTablero();
     </script>
 
 </body>
