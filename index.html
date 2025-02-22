@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=992, height=480, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trivia</title>
     <style>
         body { 
@@ -16,198 +16,85 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
         }
 
         .contenedor {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             width: 90%;
-            max-width: 550px;
+            max-width: 600px;
         }
 
-        .categoria {
+        .categoria, .puntos {
             background: black;
             color: white;
-            padding: 8px;
-            font-size: clamp(10px, 3vw, 14px);
-            font-weight: bold;
-            text-align: center;
-            border: none;
-            text-transform: uppercase;
-            width: 100%;
-            min-height: 35px;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-        }
-
-        .categoria.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .puntos {
-            background: #B39DDB;
-            color: white;
+            padding: 10px;
             font-size: 16px;
-            padding: 8px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: none;
-            width: 100%;
-            height: 38px;
             text-align: center;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-        }
-
-        .puntos.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .puntos:hover {
-            background: #9575CD;
-        }
-
-        .pregunta-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 500px;
-            text-align: center;
-            display: none;
-        }
-
-        .boton-volver, .boton-siguiente {
-            background: #FF5252;
-            color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
             border-radius: 5px;
-            margin-top: 10px;
+            cursor: pointer;
         }
 
-        .boton-volver:hover, .boton-siguiente:hover {
-            background: #D32F2F;
+        .puntos { 
+            background: #B39DDB; 
         }
 
-        .boton-siguiente {
-            display: none;
+        .puntos:hover { 
+            background: #9575CD; 
         }
     </style>
 </head>
 <body>
-
-    <div class="contenedor" id="contenedorPrincipal">
-        <div class="grid" id="categoriasGrid"></div>
-        <div class="grid" id="puntosGrid"></div>
-    </div>
-
-    <button class="boton-siguiente" id="botonSiguiente" onclick="nuevaRonda()">Siguiente Ronda</button>
-
-    <div class="pregunta-container" id="preguntaContainer">
-        <p class="pregunta-texto" id="preguntaTexto"></p>
-        <button class="boton-volver" onclick="volver()">Volver</button>
-    </div>
-
+    <div class="contenedor" id="contenedorTrivia"></div>
+    <button id="botonSiguiente" onclick="nuevaRonda()" style="display:none;">Siguiente Ronda</button>
     <script>
         let ronda = 1;
         let preguntasUsadas = 0;
-        let totalPreguntas = 20;
+        let totalPreguntas = 16;
+        
         let preguntasRondas = {
             1: {
                 categorias: ["Historia", "Ciencia", "Arte", "Deportes"],
                 preguntas: {
                     100: ["¿Quién descubrió América?", "¿Qué planeta es el más grande?", "¿Quién pintó 'La última cena'?", "¿Cuántos jugadores hay en un equipo de fútbol?"],
                     200: ["¿Cuándo fue la Revolución Francesa?", "¿Cuál es el símbolo químico del oro?", "¿Qué pintor cortó su propia oreja?", "¿Cuántos puntos vale un triple en baloncesto?"],
-                    300: ["¿En qué año terminó la Segunda Guerra Mundial?", "¿Qué gas respiramos para vivir?", "¿Qué escultura hizo Miguel Ángel?", "¿En qué país nació Lionel Messi?"],
-                    400: ["¿Quién fue el primer presidente de EE.UU.?", "¿Cuál es el metal más ligero?", "¿Cuál es el estilo artístico de Picasso?", "¿Cuántos anillos tiene el logo olímpico?"],
-                    500: ["¿Dónde se firmó la independencia de EE.UU.?", "¿Cuál es el elemento más abundante en el universo?", "¿Qué compositor escribió la Novena Sinfonía?", "¿Cuál es el deporte más practicado en el mundo?"]
                 }
             }
         };
 
         function generarTablero() {
-            let categoriasGrid = document.getElementById("categoriasGrid");
-            let puntosGrid = document.getElementById("puntosGrid");
-
-            categoriasGrid.innerHTML = "";
-            puntosGrid.innerHTML = "";
-            preguntasUsadas = 0;
-
+            let contenedor = document.getElementById("contenedorTrivia");
+            contenedor.innerHTML = "";
+            
             let datos = preguntasRondas[ronda];
-
             datos.categorias.forEach((categoria, index) => {
                 let div = document.createElement("div");
                 div.className = "categoria";
                 div.textContent = categoria;
-                categoriasGrid.appendChild(div);
-                setTimeout(() => div.classList.add("visible"), 500 * index);
+                contenedor.appendChild(div);
             });
-
-            let puntajes = [100, 200, 300, 400, 500];
-
-            puntajes.forEach((puntos, i) => {
+            
+            [100, 200].forEach(puntos => {
                 datos.categorias.forEach((_, index) => {
                     let boton = document.createElement("button");
                     boton.className = "puntos";
                     boton.textContent = puntos;
-                    boton.dataset.categoria = index;
-                    boton.dataset.puntos = puntos;
-                    boton.onclick = () => mostrarPregunta(boton);
-                    puntosGrid.appendChild(boton);
+                    boton.onclick = () => mostrarPregunta(puntos, index, boton);
+                    contenedor.appendChild(boton);
                 });
-
-                setTimeout(() => {
-                    document.querySelectorAll(".puntos").forEach(btn => btn.classList.add("visible"));
-                }, 500);
             });
         }
 
-        function mostrarPregunta(boton) {
-            let puntos = boton.dataset.puntos;
-            let categoriaIndex = boton.dataset.categoria;
-
-            document.getElementById("contenedorPrincipal").style.display = "none";
-            document.getElementById("preguntaTexto").textContent = preguntasRondas[ronda].preguntas[puntos][categoriaIndex];
-            document.getElementById("preguntaContainer").style.display = "block";
-
+        function mostrarPregunta(puntos, categoriaIndex, boton) {
+            alert(preguntasRondas[ronda].preguntas[puntos][categoriaIndex]);
             boton.disabled = true;
             boton.style.opacity = "0.5";
-
             preguntasUsadas++;
             if (preguntasUsadas === totalPreguntas) {
                 document.getElementById("botonSiguiente").style.display = "block";
             }
-        }
-
-        function volver() {
-            document.getElementById("preguntaContainer").style.display = "none";
-            document.getElementById("contenedorPrincipal").style.display = "flex";
         }
 
         function nuevaRonda() {
@@ -218,6 +105,5 @@
 
         generarTablero();
     </script>
-
 </body>
 </html>
