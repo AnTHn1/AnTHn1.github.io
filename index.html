@@ -13,15 +13,14 @@
             color: white; 
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
-            padding-top: 15px; 
+            align-items: center;
             overflow: hidden;
         }
-        
+
         .contenedor {
             width: 100%;
-            margin: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -47,7 +46,6 @@
             font-size: clamp(10px, 3vw, 14px);
             font-weight: bold;
             text-align: center;
-            cursor: pointer;
             border: none;
             text-transform: uppercase;
             width: 100%;
@@ -79,6 +77,23 @@
 
         .puntos:hover {
             background: #9575CD;
+        }
+
+        /* Estilo del cuadro de preguntas */
+        .pregunta-container {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            margin-top: 20px;
+            display: none; /* Oculto por defecto */
+        }
+
+        .pregunta-texto {
+            font-size: 18px;
+            font-weight: bold;
         }
 
     </style>
@@ -123,6 +138,11 @@
             <button class="puntos" onclick="mostrarPregunta(500, 4)">500</button>
         </div>
 
+        <!-- Contenedor de la pregunta -->
+        <div class="pregunta-container" id="preguntaContainer">
+            <p class="pregunta-texto" id="preguntaTexto"></p>
+        </div>
+
     </div>
 
     <script>
@@ -161,7 +181,14 @@
         };
 
         function mostrarPregunta(puntos, numero) {
-            alert(preguntas[puntos][numero]);
+            const preguntaContainer = document.getElementById("preguntaContainer");
+            const preguntaTexto = document.getElementById("preguntaTexto");
+
+            // Cambia el texto de la pregunta
+            preguntaTexto.textContent = preguntas[puntos][numero];
+
+            // Muestra el contenedor de la pregunta
+            preguntaContainer.style.display = "block";
         }
     </script>
 
