@@ -79,29 +79,46 @@
             background: #9575CD;
         }
 
-        /* Estilo del cuadro de preguntas */
+        /* Estilo del cuadro de preguntas centrado */
         .pregunta-container {
-            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
             color: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px;
             width: 80%;
             max-width: 500px;
-            margin-top: 20px;
+            text-align: center;
             display: none; /* Oculto por defecto */
         }
 
         .pregunta-texto {
-            font-size: 18px;
+            font-size: 24px;
             font-weight: bold;
+            margin-bottom: 15px;
         }
 
+        .boton-volver {
+            background: #FF5252;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .boton-volver:hover {
+            background: #D32F2F;
+        }
     </style>
 </head>
 <body>
 
-    <div class="contenedor">
-
+    <div class="contenedor" id="contenedorPrincipal">
         <!-- Categorías -->
         <div class="grid">
             <div class="categoria">CORTO</div>
@@ -137,12 +154,12 @@
             <button class="puntos" onclick="mostrarPregunta(500, 3)">500</button>
             <button class="puntos" onclick="mostrarPregunta(500, 4)">500</button>
         </div>
+    </div>
 
-        <!-- Contenedor de la pregunta -->
-        <div class="pregunta-container" id="preguntaContainer">
-            <p class="pregunta-texto" id="preguntaTexto"></p>
-        </div>
-
+    <!-- Contenedor de la pregunta -->
+    <div class="pregunta-container" id="preguntaContainer">
+        <p class="pregunta-texto" id="preguntaTexto"></p>
+        <button class="boton-volver" onclick="volver()">Volver</button>
     </div>
 
     <script>
@@ -181,14 +198,14 @@
         };
 
         function mostrarPregunta(puntos, numero) {
-            const preguntaContainer = document.getElementById("preguntaContainer");
-            const preguntaTexto = document.getElementById("preguntaTexto");
+            document.getElementById("contenedorPrincipal").style.display = "none"; 
+            document.getElementById("preguntaTexto").textContent = preguntas[puntos][numero];
+            document.getElementById("preguntaContainer").style.display = "block";
+        }
 
-            // Cambia el texto de la pregunta
-            preguntaTexto.textContent = preguntas[puntos][numero];
-
-            // Muestra el contenedor de la pregunta
-            preguntaContainer.style.display = "block";
+        function volver() {
+            document.getElementById("preguntaContainer").style.display = "none";
+            document.getElementById("contenedorPrincipal").style.display = "flex";
         }
     </script>
 
