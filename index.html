@@ -35,23 +35,30 @@
         }
 
         .categoria {
-        background: black;
-        color: white;
-        padding: 8px;
-        font-size: clamp(10px, 3vw, 14px);
-        font-weight: bold;
-        text-align: center;
-        border: none;
-        text-transform: uppercase;
-        width: 100%;
-        min-height: 35px;
-        border-radius: 5px;
-        margin-bottom: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform: translateX(-7px); /* Desplazamiento ligero a la izquierda */
-    }
+            background: black;
+            color: white;
+            padding: 8px;
+            font-size: clamp(10px, 3vw, 14px);
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            text-transform: uppercase;
+            width: 100%;
+            min-height: 35px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+
+        .categoria.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .puntos {
             background: #B39DDB;
@@ -64,6 +71,14 @@
             width: 100%;
             height: 38px;
             text-align: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .puntos.visible {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .puntos:hover {
@@ -129,19 +144,6 @@
                 preguntas: {
                     100: { 1: "¿Quién descubrió América?", 2: "¿Qué planeta es el más grande?", 3: "¿Quién pintó 'La última cena'?", 4: "¿Cuántos jugadores hay en un equipo de fútbol?" },
                     200: { 1: "¿Cuándo fue la Revolución Francesa?", 2: "¿Cuál es el símbolo químico del oro?", 3: "¿Qué pintor cortó su propia oreja?", 4: "¿Cuántos puntos vale un triple en baloncesto?" },
-                    300: { 1: "¿Quién fue Napoleón Bonaparte?", 2: "¿Cuál es el gas más abundante en la atmósfera?", 3: "¿Qué arte usa el torno?", 4: "¿En qué deporte se usa una red y una pelota?" },
-                    400: { 1: "¿Qué país construyó la Gran Muralla China?", 2: "¿Qué unidad mide la resistencia eléctrica?", 3: "¿Qué artista hizo la Capilla Sixtina?", 4: "¿Dónde se juega el Super Bowl?" },
-                    500: { 1: "¿En qué año terminó la Segunda Guerra Mundial?", 2: "¿Cuál es el metal más ligero?", 3: "¿Qué corriente artística creó Picasso?", 4: "¿Cuántos jugadores hay en un equipo de voleibol?" }
-                }
-            },
-            2: {
-                categorias: ["Geografía", "Tecnología", "Literatura", "Música"],
-                preguntas: {
-                    100: { 1: "¿Cuál es el país más grande del mundo?", 2: "¿Quién inventó la computadora?", 3: "¿Quién escribió 'Cien años de soledad'?", 4: "¿Quién es el 'Rey del Pop'?" },
-                    200: { 1: "¿Qué continente tiene más países?", 2: "¿Qué significa 'WWW' en internet?", 3: "¿Qué novela empieza con 'En un lugar de La Mancha'?", 4: "¿Quién cantó 'Bohemian Rhapsody'?" },
-                    300: { 1: "¿Dónde están las pirámides de Giza?", 2: "¿Qué empresa creó el iPhone?", 3: "¿Quién escribió 'Romeo y Julieta'?", 4: "¿Cuál es el himno de la UEFA Champions League?" },
-                    400: { 1: "¿Cuál es el océano más grande?", 2: "¿Qué es un transistor?", 3: "¿Quién es el autor de 'El principito'?", 4: "¿Qué banda creó el álbum 'The Dark Side of the Moon'?" },
-                    500: { 1: "¿Cuántos continentes hay?", 2: "¿Qué es la inteligencia artificial?", 3: "¿Quién escribió 'La Odisea'?", 4: "¿Qué famoso compositor perdió la audición?" }
                 }
             }
         };
@@ -155,22 +157,33 @@
             botonesActivos = [];
 
             let datos = preguntasRondas[ronda];
-            datos.categorias.forEach(categoria => {
+
+            datos.categorias.forEach((categoria, index) => {
                 let div = document.createElement("div");
                 div.className = "categoria";
                 div.textContent = categoria;
                 categoriasGrid.appendChild(div);
-            });
 
-            Object.keys(datos.preguntas).forEach(puntos => {
-                for (let i = 1; i <= 4; i++) {
-                    let boton = document.createElement("button");
-                    boton.className = "puntos";
-                    boton.textContent = puntos;
-                    boton.onclick = () => mostrarPregunta(boton, puntos, i);
-                    botonesActivos.push(boton);
-                    puntosGrid.appendChild(boton);
-                }
+                setTimeout(() => {
+                    div.classList.add("visible");
+
+                    let delayPuntos = 500;
+                    Object.keys(datos.preguntas).forEach((puntos, i) => {
+                        setTimeout(() => {
+                            let boton = document.createElement("button");
+                            boton.className = "puntos";
+                            boton.textContent = puntos;
+                            boton.onclick = () => mostrarPregunta(boton, puntos, index + 1);
+                            botonesActivos.push(boton);
+                            puntosGrid.appendChild(boton);
+
+                            setTimeout(() => {
+                                boton.classList.add("visible");
+                            }, 200 * i);
+                        }, delayPuntos * i);
+                    });
+
+                }, 600 * index);
             });
         }
 
