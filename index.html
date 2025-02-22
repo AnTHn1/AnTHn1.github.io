@@ -35,34 +35,39 @@
             max-width: 550px;
         }
 
+        /* Mueve las categorías ligeramente a la izquierda */
+        .grid:first-of-type {
+            margin-left: -10px;
+        }
+
         .categoria {
             background: black;
             color: white;
             padding: 5px;
-            font-size: clamp(10px, 3vw, 14px); /* Se adapta dinámicamente */
+            font-size: clamp(10px, 3vw, 14px);
             font-weight: bold;
             text-align: center;
             cursor: pointer;
             border: none;
             text-transform: uppercase;
             width: 100%;
-            height: auto; /* Permite expandirse según el texto */
-            min-height: 35px; /* Altura mínima */
+            height: auto;
+            min-height: 35px;
             border-radius: 5px;
             margin-bottom: 5px;
-            word-wrap: break-word; /* Evita el desbordamiento */
-            white-space: normal; /* Permite saltos de línea */
+            word-wrap: break-word;
+            white-space: normal;
             display: flex;
-            flex-direction: column; /* Acomoda texto en varias líneas */
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 8px; /* Espaciado interno */
+            padding: 8px;
         }
 
         .puntos {
             background: #B39DDB;
             color: white;
-            font-size: 16px; /* Tamaño de texto reducido */
+            font-size: 16px;
             padding: 8px;
             cursor: pointer;
             border-radius: 5px;
