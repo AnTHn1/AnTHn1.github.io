@@ -9,18 +9,18 @@
             font-family: Arial, sans-serif; 
             text-align: center;
             background: url('https://asset.gecdesigns.com/img/background-templates/green-gradient-abstract-wavy-background-template-10032404-1710079015776-cover.webp') no-repeat center center fixed;
-            background-size: cover; /* Ajusta la imagen al fondo */
+            background-size: cover;
             color: white; 
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 5px; /* Subido más */
-            overflow: hidden; /* Oculta el desplazamiento vertical */
+            padding-top: 15px; /* Aumentado */
+            overflow: hidden;
         }
         
         .contenedor {
-            width: 90%;
+            width: 100%;
             margin: auto;
             display: flex;
             flex-direction: column;
@@ -30,42 +30,42 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 25px; /* Separación ajustada */
-            width: 80%;
-            max-width: 480px;
+            gap: 35px; /* Aumentado */
+            width: 90%;
+            max-width: 550px; /* Aumentado */
         }
 
         .categoria {
-            background: black; /* Negro */
-            color: white; /* Texto en blanco */
-            padding: 3px;
-            font-size: 10px;
+            background: black;
+            color: white;
+            padding: 5px; /* Aumentado */
+            font-size: 20px; /* Aumentado */
             font-weight: bold;
             text-align: center;
             cursor: pointer;
             border: none;
             text-transform: uppercase;
-            width: 95%; /* Ajuste menor de tamaño */
-            height: 25px; /* Más pequeñas */
+            width: 100%;
+            height: 35px; /* Aumentado */
             border-radius: 5px;
-            margin-bottom: 2px; /* Ajustado para subir más */
+            margin-bottom: 5px; /* Aumentado */
         }
 
         .puntos {
-            background: #B39DDB; /* Morado pastel */
+            background: #B39DDB;
             color: white;
-            font-size: 11px;
-            padding: 5px;
+            font-size: 21px; /* Aumentado */
+            padding: 10px; /* Aumentado */
             cursor: pointer;
             border-radius: 5px;
             border: none;
             width: 100%;
-            height: 28px;
+            height: 38px; /* Aumentado */
             text-align: center;
         }
 
         .puntos:hover {
-            background: #9575CD; /* Morado más oscuro al pasar el mouse */
+            background: #9575CD;
         }
 
     </style>
@@ -74,7 +74,7 @@
 
     <div class="contenedor">
 
-        <!-- Categorías con más separación y tamaño reducido -->
+        <!-- Categorías con más separación y tamaño aumentado -->
         <div class="grid">
             <input type="text" class="categoria" value="Categoría 1">
             <input type="text" class="categoria" value="Categoría 2">
