@@ -97,33 +97,73 @@
      <br>
         <!-- Puntos -->
         <div class="grid">
-            <button class="puntos">100</button>
-            <button class="puntos">100</button>
-            <button class="puntos">100</button>
-            <button class="puntos">100</button>
+            <button class="puntos" onclick="mostrarPregunta(100, 1)">100</button>
+            <button class="puntos" onclick="mostrarPregunta(100, 2)">100</button>
+            <button class="puntos" onclick="mostrarPregunta(100, 3)">100</button>
+            <button class="puntos" onclick="mostrarPregunta(100, 4)">100</button>
 
-            <button class="puntos">200</button>
-            <button class="puntos">200</button>
-            <button class="puntos">200</button>
-            <button class="puntos">200</button>
+            <button class="puntos" onclick="mostrarPregunta(200, 1)">200</button>
+            <button class="puntos" onclick="mostrarPregunta(200, 2)">200</button>
+            <button class="puntos" onclick="mostrarPregunta(200, 3)">200</button>
+            <button class="puntos" onclick="mostrarPregunta(200, 4)">200</button>
 
-            <button class="puntos">300</button>
-            <button class="puntos">300</button>
-            <button class="puntos">300</button>
-            <button class="puntos">300</button>
+            <button class="puntos" onclick="mostrarPregunta(300, 1)">300</button>
+            <button class="puntos" onclick="mostrarPregunta(300, 2)">300</button>
+            <button class="puntos" onclick="mostrarPregunta(300, 3)">300</button>
+            <button class="puntos" onclick="mostrarPregunta(300, 4)">300</button>
 
-            <button class="puntos">400</button>
-            <button class="puntos">400</button>
-            <button class="puntos">400</button>
-            <button class="puntos">400</button>
+            <button class="puntos" onclick="mostrarPregunta(400, 1)">400</button>
+            <button class="puntos" onclick="mostrarPregunta(400, 2)">400</button>
+            <button class="puntos" onclick="mostrarPregunta(400, 3)">400</button>
+            <button class="puntos" onclick="mostrarPregunta(400, 4)">400</button>
 
-            <button class="puntos">500</button>
-            <button class="puntos">500</button>
-            <button class="puntos">500</button>
-            <button class="puntos">500</button>
+            <button class="puntos" onclick="mostrarPregunta(500, 1)">500</button>
+            <button class="puntos" onclick="mostrarPregunta(500, 2)">500</button>
+            <button class="puntos" onclick="mostrarPregunta(500, 3)">500</button>
+            <button class="puntos" onclick="mostrarPregunta(500, 4)">500</button>
         </div>
 
     </div>
+
+    <script>
+        // Preguntas para cada puntaje y número de pregunta
+        const preguntas = {
+            100: {
+                1: "¿Cuál es la capital de Francia?",
+                2: "¿Cuántos lados tiene un triángulo?",
+                3: "¿Cuál es el océano más grande?",
+                4: "¿En qué año llegó el hombre a la Luna?"
+            },
+            200: {
+                1: "¿Qué planeta es conocido como el planeta rojo?",
+                2: "¿Cuántos continentes hay en el mundo?",
+                3: "¿Quién pintó la Mona Lisa?",
+                4: "¿Cuántos corazones tiene un pulpo?"
+            },
+            300: {
+                1: "¿En qué país se encuentra la Gran Muralla China?",
+                2: "¿Quién escribió 'Don Quijote de la Mancha'?",
+                3: "¿Cuál es el elemento químico con símbolo 'O'?",
+                4: "¿Qué animal es el más grande del mundo?"
+            },
+            400: {
+                1: "¿Cuántos jugadores tiene un equipo de fútbol en el campo?",
+                2: "¿En qué año terminó la Segunda Guerra Mundial?",
+                3: "¿Cuál es la moneda de Japón?",
+                4: "¿Quién descubrió la gravedad?"
+            },
+            500: {
+                1: "¿Cuál es el país más poblado del mundo?",
+                2: "¿Cuántos huesos tiene el cuerpo humano?",
+                3: "¿Cuál es la lengua más hablada en el mundo?",
+                4: "¿Qué científico desarrolló la teoría de la relatividad?"
+            }
+        };
+
+        function mostrarPregunta(puntos, numero) {
+            alert(preguntas[puntos][numero]);
+        }
+    </script>
 
 </body>
 </html>
