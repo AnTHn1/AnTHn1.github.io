@@ -29,7 +29,7 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 35px;
+            gap: 10px;
             width: 90%;
             max-width: 550px;
         }
@@ -124,7 +124,6 @@
 
     <div class="contenedor" id="contenedorPrincipal">
         <div class="grid" id="categoriasGrid"></div>
-        <br>
         <div class="grid" id="puntosGrid"></div>
     </div>
 
@@ -143,11 +142,11 @@
             1: {
                 categorias: ["Historia", "Ciencia", "Arte", "Deportes"],
                 preguntas: {
-                    100: { 1: "¿Quién descubrió América?", 2: "¿Qué planeta es el más grande?", 3: "¿Quién pintó 'La última cena'?", 4: "¿Cuántos jugadores hay en un equipo de fútbol?" },
-                    200: { 1: "¿Cuándo fue la Revolución Francesa?", 2: "¿Cuál es el símbolo químico del oro?", 3: "¿Qué pintor cortó su propia oreja?", 4: "¿Cuántos puntos vale un triple en baloncesto?" },
-                    300: { 1: "¿En qué año terminó la Segunda Guerra Mundial?", 2: "¿Qué gas respiramos para vivir?", 3: "¿Qué escultura hizo Miguel Ángel?", 4: "¿En qué país nació Lionel Messi?" },
-                    400: { 1: "¿Quién fue el primer presidente de EE.UU.?", 2: "¿Cuál es el metal más ligero?", 3: "¿Cuál es el estilo artístico de Picasso?", 4: "¿Cuántos anillos tiene el logo olímpico?" },
-                    500: { 1: "¿Dónde se firmó la independencia de EE.UU.?", 2: "¿Cuál es el elemento más abundante en el universo?", 3: "¿Qué compositor escribió la Novena Sinfonía?", 4: "¿Cuál es el deporte más practicado en el mundo?" }
+                    100: ["¿Quién descubrió América?", "¿Qué planeta es el más grande?", "¿Quién pintó 'La última cena'?", "¿Cuántos jugadores hay en un equipo de fútbol?"],
+                    200: ["¿Cuándo fue la Revolución Francesa?", "¿Cuál es el símbolo químico del oro?", "¿Qué pintor cortó su propia oreja?", "¿Cuántos puntos vale un triple en baloncesto?"],
+                    300: ["¿En qué año terminó la Segunda Guerra Mundial?", "¿Qué gas respiramos para vivir?", "¿Qué escultura hizo Miguel Ángel?", "¿En qué país nació Lionel Messi?"],
+                    400: ["¿Quién fue el primer presidente de EE.UU.?", "¿Cuál es el metal más ligero?", "¿Cuál es el estilo artístico de Picasso?", "¿Cuántos anillos tiene el logo olímpico?"],
+                    500: ["¿Dónde se firmó la independencia de EE.UU.?", "¿Cuál es el elemento más abundante en el universo?", "¿Qué compositor escribió la Novena Sinfonía?", "¿Cuál es el deporte más practicado en el mundo?"]
                 }
             }
         };
@@ -167,39 +166,34 @@
                 div.className = "categoria";
                 div.textContent = categoria;
                 categoriasGrid.appendChild(div);
+                setTimeout(() => div.classList.add("visible"), 500 * index);
+            });
+
+            let puntajes = [100, 200, 300, 400, 500];
+
+            puntajes.forEach((puntos, i) => {
+                datos.categorias.forEach((_, index) => {
+                    let boton = document.createElement("button");
+                    boton.className = "puntos";
+                    boton.textContent = puntos;
+                    boton.dataset.categoria = index;
+                    boton.dataset.puntos = puntos;
+                    boton.onclick = () => mostrarPregunta(boton);
+                    puntosGrid.appendChild(boton);
+                });
 
                 setTimeout(() => {
-                    div.classList.add("visible");
-
-                    let delayPuntos = 500;
-                    let puntajes = [100, 200, 300, 400, 500];
-
-                    puntajes.forEach((puntos, i) => {
-                        setTimeout(() => {
-                            let boton = document.createElement("button");
-                            boton.className = "puntos";
-                            boton.textContent = puntos;
-                            boton.dataset.numero = index + 1;
-                            boton.dataset.puntos = puntos;
-                            boton.onclick = () => mostrarPregunta(boton);
-                            puntosGrid.appendChild(boton);
-
-                            setTimeout(() => {
-                                boton.classList.add("visible");
-                            }, 200 * i);
-                        }, delayPuntos * i);
-                    });
-
-                }, 600 * index);
+                    document.querySelectorAll(".puntos").forEach(btn => btn.classList.add("visible"));
+                }, 500);
             });
         }
 
         function mostrarPregunta(boton) {
             let puntos = boton.dataset.puntos;
-            let numero = boton.dataset.numero;
+            let categoriaIndex = boton.dataset.categoria;
 
             document.getElementById("contenedorPrincipal").style.display = "none";
-            document.getElementById("preguntaTexto").textContent = preguntasRondas[ronda].preguntas[puntos][numero];
+            document.getElementById("preguntaTexto").textContent = preguntasRondas[ronda].preguntas[puntos][categoriaIndex];
             document.getElementById("preguntaContainer").style.display = "block";
 
             boton.disabled = true;
