@@ -81,6 +81,10 @@
             transform: scale(1);
         }
 
+        .puntos:hover {
+            background: #9575CD;
+        }
+
         .pregunta-container {
             position: fixed;
             top: 50%;
@@ -95,9 +99,29 @@
             text-align: center;
             display: none;
         }
+
+        .boton-volver, .boton-siguiente {
+            background: #FF5252;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .boton-volver:hover, .boton-siguiente:hover {
+            background: #D32F2F;
+        }
+
+        .boton-siguiente {
+            display: none;
+        }
     </style>
 </head>
 <body>
+
     <div class="contenedor" id="contenedorPrincipal">
         <div class="grid" id="categoriasGrid"></div>
         <br>
@@ -113,26 +137,17 @@
 
     <script>
         let ronda = 1;
-        let botonesActivos = [];
+        let preguntasUsadas = 0;
+        let totalPreguntas = 20;
         let preguntasRondas = {
             1: {
                 categorias: ["Historia", "Ciencia", "Arte", "Deportes"],
                 preguntas: {
-                    100: { 1: "Pregunta 100 Historia", 2: "Pregunta 100 Ciencia", 3: "Pregunta 100 Arte", 4: "Pregunta 100 Deportes" },
-                    200: { 1: "Pregunta 200 Historia", 2: "Pregunta 200 Ciencia", 3: "Pregunta 200 Arte", 4: "Pregunta 200 Deportes" },
-                    300: { 1: "Pregunta 300 Historia", 2: "Pregunta 300 Ciencia", 3: "Pregunta 300 Arte", 4: "Pregunta 300 Deportes" },
-                    400: { 1: "Pregunta 400 Historia", 2: "Pregunta 400 Ciencia", 3: "Pregunta 400 Arte", 4: "Pregunta 400 Deportes" },
-                    500: { 1: "Pregunta 500 Historia", 2: "Pregunta 500 Ciencia", 3: "Pregunta 500 Arte", 4: "Pregunta 500 Deportes" }
-                }
-            },
-            2: {
-                categorias: ["Geografía", "Música", "Tecnología", "Cine"],
-                preguntas: {
-                    100: { 1: "Pregunta 100 Geografía", 2: "Pregunta 100 Música", 3: "Pregunta 100 Tecnología", 4: "Pregunta 100 Cine" },
-                    200: { 1: "Pregunta 200 Geografía", 2: "Pregunta 200 Música", 3: "Pregunta 200 Tecnología", 4: "Pregunta 200 Cine" },
-                    300: { 1: "Pregunta 300 Geografía", 2: "Pregunta 300 Música", 3: "Pregunta 300 Tecnología", 4: "Pregunta 300 Cine" },
-                    400: { 1: "Pregunta 400 Geografía", 2: "Pregunta 400 Música", 3: "Pregunta 400 Tecnología", 4: "Pregunta 400 Cine" },
-                    500: { 1: "Pregunta 500 Geografía", 2: "Pregunta 500 Música", 3: "Pregunta 500 Tecnología", 4: "Pregunta 500 Cine" }
+                    100: { 1: "¿Quién descubrió América?", 2: "¿Qué planeta es el más grande?", 3: "¿Quién pintó 'La última cena'?", 4: "¿Cuántos jugadores hay en un equipo de fútbol?" },
+                    200: { 1: "¿Cuándo fue la Revolución Francesa?", 2: "¿Cuál es el símbolo químico del oro?", 3: "¿Qué pintor cortó su propia oreja?", 4: "¿Cuántos puntos vale un triple en baloncesto?" },
+                    300: { 1: "¿En qué año terminó la Segunda Guerra Mundial?", 2: "¿Qué gas respiramos para vivir?", 3: "¿Qué escultura hizo Miguel Ángel?", 4: "¿En qué país nació Lionel Messi?" },
+                    400: { 1: "¿Quién fue el primer presidente de EE.UU.?", 2: "¿Cuál es el metal más ligero?", 3: "¿Cuál es el estilo artístico de Picasso?", 4: "¿Cuántos anillos tiene el logo olímpico?" },
+                    500: { 1: "¿Dónde se firmó la independencia de EE.UU.?", 2: "¿Cuál es el elemento más abundante en el universo?", 3: "¿Qué compositor escribió la Novena Sinfonía?", 4: "¿Cuál es el deporte más practicado en el mundo?" }
                 }
             }
         };
@@ -140,30 +155,65 @@
         function generarTablero() {
             let categoriasGrid = document.getElementById("categoriasGrid");
             let puntosGrid = document.getElementById("puntosGrid");
+
             categoriasGrid.innerHTML = "";
             puntosGrid.innerHTML = "";
+            preguntasUsadas = 0;
+
             let datos = preguntasRondas[ronda];
-            
+
             datos.categorias.forEach((categoria, index) => {
                 let div = document.createElement("div");
                 div.className = "categoria";
                 div.textContent = categoria;
                 categoriasGrid.appendChild(div);
+
                 setTimeout(() => {
                     div.classList.add("visible");
-                    Object.keys(datos.preguntas).forEach((puntos, i) => {
+
+                    let delayPuntos = 500;
+                    let puntajes = [100, 200, 300, 400, 500];
+
+                    puntajes.forEach((puntos, i) => {
                         setTimeout(() => {
                             let boton = document.createElement("button");
                             boton.className = "puntos";
                             boton.textContent = puntos;
+                            boton.dataset.numero = index + 1;
+                            boton.dataset.puntos = puntos;
+                            boton.onclick = () => mostrarPregunta(boton);
                             puntosGrid.appendChild(boton);
+
                             setTimeout(() => {
                                 boton.classList.add("visible");
                             }, 200 * i);
-                        }, 500 * i);
+                        }, delayPuntos * i);
                     });
+
                 }, 600 * index);
             });
+        }
+
+        function mostrarPregunta(boton) {
+            let puntos = boton.dataset.puntos;
+            let numero = boton.dataset.numero;
+
+            document.getElementById("contenedorPrincipal").style.display = "none";
+            document.getElementById("preguntaTexto").textContent = preguntasRondas[ronda].preguntas[puntos][numero];
+            document.getElementById("preguntaContainer").style.display = "block";
+
+            boton.disabled = true;
+            boton.style.opacity = "0.5";
+
+            preguntasUsadas++;
+            if (preguntasUsadas === totalPreguntas) {
+                document.getElementById("botonSiguiente").style.display = "block";
+            }
+        }
+
+        function volver() {
+            document.getElementById("preguntaContainer").style.display = "none";
+            document.getElementById("contenedorPrincipal").style.display = "flex";
         }
 
         function nuevaRonda() {
@@ -174,5 +224,6 @@
 
         generarTablero();
     </script>
+
 </body>
 </html>
