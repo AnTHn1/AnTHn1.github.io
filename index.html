@@ -37,7 +37,7 @@
         .categoria {
             background: black;
             color: white;
-            padding: 5px;
+            padding: 8px;
             font-size: clamp(10px, 3vw, 14px);
             font-weight: bold;
             text-align: center;
@@ -50,7 +50,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8px;
         }
 
         .puntos {
@@ -128,14 +127,20 @@
                 categorias: ["Historia", "Ciencia", "Arte", "Deportes"],
                 preguntas: {
                     100: { 1: "¿Quién descubrió América?", 2: "¿Qué planeta es el más grande?", 3: "¿Quién pintó 'La última cena'?", 4: "¿Cuántos jugadores hay en un equipo de fútbol?" },
-                    200: { 1: "¿Cuándo fue la Revolución Francesa?", 2: "¿Cuál es el símbolo químico del oro?", 3: "¿Qué pintor cortó su propia oreja?", 4: "¿Cuántos puntos vale un triple en baloncesto?" }
+                    200: { 1: "¿Cuándo fue la Revolución Francesa?", 2: "¿Cuál es el símbolo químico del oro?", 3: "¿Qué pintor cortó su propia oreja?", 4: "¿Cuántos puntos vale un triple en baloncesto?" },
+                    300: { 1: "¿Quién fue Napoleón Bonaparte?", 2: "¿Cuál es el gas más abundante en la atmósfera?", 3: "¿Qué arte usa el torno?", 4: "¿En qué deporte se usa una red y una pelota?" },
+                    400: { 1: "¿Qué país construyó la Gran Muralla China?", 2: "¿Qué unidad mide la resistencia eléctrica?", 3: "¿Qué artista hizo la Capilla Sixtina?", 4: "¿Dónde se juega el Super Bowl?" },
+                    500: { 1: "¿En qué año terminó la Segunda Guerra Mundial?", 2: "¿Cuál es el metal más ligero?", 3: "¿Qué corriente artística creó Picasso?", 4: "¿Cuántos jugadores hay en un equipo de voleibol?" }
                 }
             },
             2: {
                 categorias: ["Geografía", "Tecnología", "Literatura", "Música"],
                 preguntas: {
                     100: { 1: "¿Cuál es el país más grande del mundo?", 2: "¿Quién inventó la computadora?", 3: "¿Quién escribió 'Cien años de soledad'?", 4: "¿Quién es el 'Rey del Pop'?" },
-                    200: { 1: "¿Qué continente tiene más países?", 2: "¿Qué significa 'WWW' en internet?", 3: "¿Qué novela empieza con 'En un lugar de La Mancha'?", 4: "¿Quién cantó 'Bohemian Rhapsody'?" }
+                    200: { 1: "¿Qué continente tiene más países?", 2: "¿Qué significa 'WWW' en internet?", 3: "¿Qué novela empieza con 'En un lugar de La Mancha'?", 4: "¿Quién cantó 'Bohemian Rhapsody'?" },
+                    300: { 1: "¿Dónde están las pirámides de Giza?", 2: "¿Qué empresa creó el iPhone?", 3: "¿Quién escribió 'Romeo y Julieta'?", 4: "¿Cuál es el himno de la UEFA Champions League?" },
+                    400: { 1: "¿Cuál es el océano más grande?", 2: "¿Qué es un transistor?", 3: "¿Quién es el autor de 'El principito'?", 4: "¿Qué banda creó el álbum 'The Dark Side of the Moon'?" },
+                    500: { 1: "¿Cuántos continentes hay?", 2: "¿Qué es la inteligencia artificial?", 3: "¿Quién escribió 'La Odisea'?", 4: "¿Qué famoso compositor perdió la audición?" }
                 }
             }
         };
@@ -187,13 +192,8 @@
 
         function nuevaRonda() {
             ronda++;
-            if (!preguntasRondas[ronda]) {
-                alert("No hay más rondas disponibles.");
-                return;
-            }
             document.getElementById("botonSiguiente").style.display = "none";
             generarTablero();
-            document.getElementById("contenedorPrincipal").style.display = "flex";
         }
 
         generarTablero();
