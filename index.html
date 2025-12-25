@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=992, height=480, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <title>Trivia</title>
+    <style>
+        body {
+            font-family: 'Signika Negative', sans-serif;
+            text-align: center;
+            background: url('https://asset.gecdesigns.com/img/background-templates/green-gradient-abstract-wavy-background-template-10032404-1710079015776-cover.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* 🔹 Asegurar que los textos en botones y títulos también usen Roboto */
+        .categoria,
+        .pregunta-texto,
+        .boton-volver,
+        .boton-siguiente,
+        .puntos {
+            font-family: 'Signika Negative';
+        }
+
+        .contenedor {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contenedor-activo {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 35px;
+    width: 90%;
+    max-width: 700px;
+}
+
+
+        .categoria {
+            background: black;
+            color: white;
+            padding: 8px;
+            font-size: clamp(10px, 3vw, 14px);
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            text-transform: uppercase;
+            width: 110%;
+            min-height: 35px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            left: -7px;
+            /* Mueve la posición de la categoría -7px */
+        }
+
+        .categoria-fullscreen {
+
+            font-size: 50px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+            /* Hace que la transición sea suave */
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .puntos {
+            background: #ffbb00;
+            color: white;
+            font-size: 20px;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            width: 110%;
+            height: 50px;
+            text-align: center;
+        }
+
+        .puntos:hover {
+            background: #ff9812;
+        }
+
+.pregunta-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.95); /* un poco más opaco */
+    color: white;
+    padding: 40px; /* antes 20px */
+    font-size: 28px; /* antes 20px */
+    border-radius: 15px; /* antes 10px */
+    width: 90%; /* antes 100% max 500px */
+    max-width: 800px; /* antes 500px */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translate(-50%, 100vh);
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+.pregunta-texto {
+    font-size: 32px; /* antes 20px */
+    line-height: 1.4;
+}
+        /* 🔹 Clase para activar la animación */
+        .pregunta-activa {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        .boton-volver,
+        .boton-siguiente {
+            background: #FF5252;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+                display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+        }
+
+        .boton-volver:hover,
+        .boton-siguiente:hover {
+            background: #D32F2F;
+        }
+
+        .boton-siguiente {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #FF5252;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            display: none;
+            /* Se oculta hasta que sea necesario */
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .boton-siguiente:hover {
+            background: #D32F2F;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="categoria-fullscreen" id="categoriaFullscreen" onclick="mostrarSiguienteCategoria()"></div>
+
+    <div class="contenedor" id="contenedorPrincipal" style="display:none;">
+        <div class="grid" id="categoriasGrid"></div>
+        <br>
+        <div class="grid" id="puntosGrid"></div>
+    </div>
+
+    <button class="boton-siguiente" id="botonSiguiente" onclick="nuevaRonda()">Siguiente Ronda</button>
+
+<div class="pregunta-container" id="preguntaContainer">
+    <p class="pregunta-texto" id="preguntaTexto"></p>
+</div>
+
+
+    <script>
+        let esperandoClickPantalla = false;
+        let ronda = 1;
+        let categoriaIndex = 0;
+        let categoriaFullscreen = document.getElementById("categoriaFullscreen");
+        let contenedorPrincipal = document.getElementById("contenedorPrincipal");
+
+let preguntasRondas = {
+    1: {
+        categorias: ["Crafteador\nMatematico", "Cultura\nGeneral", "Pantalla\nMaestra", "Íconos\ndel\nGaming", "Hits\nHistoricos"],
+        preguntas: {
+            100: [
+                {pregunta: "¿Cuántos palos se necesitan para fabricar 1 pico de madera?", respuesta: "2 palos"},
+                {pregunta: "¿Cuántos continentes hay en el mundo según el modelo más aceptado actualmente?", respuesta: "7 continentes"},
+                {pregunta: "¿Cómo se llama el protagonista de la serie Breaking Bad?", respuesta: "Walter White"},
+                {pregunta: "¿Cómo se llama el personaje principal de la saga The Legend of Zelda?", respuesta: "Link"},
+                {pregunta: "¿Quién es conocido como el “Rey del Pop”?", respuesta: "Michael Jackson"}
+            ],
+            200: [
+                {pregunta: "¿Cuántos lingotes de hierro se necesitan para fabricar 3 tijeras?", respuesta: "6 lingotes"},
+                {pregunta: "¿En qué año llegó el ser humano por primera vez a la Luna?", respuesta: "1969"},
+                {pregunta: "¿Cuántas películas tiene la saga Rápidos y Furiosos hasta hoy?", respuesta: "11 películas"},
+                {pregunta: "¿En qué videojuego aparece por primera vez Mario?", respuesta: "Donkey Kong"},
+                {pregunta: "¿Qué banda interpretó la canción Bohemian Rhapsody?", respuesta: "Queen"}
+            ],
+            300: [
+                {pregunta: "¿Cuántos lingotes de oro se necesitan para fabricar 3 manzanas doradas normales?", respuesta: "24 lingotes (8 por manzana)"},
+                {pregunta: "¿Cuál es el país con mayor población del mundo Actualmente?", respuesta: "Actualmente es La INDIA con casi 1.460 millones de habitantes en el 2026"},
+                {pregunta: "¿Cómo se llama la ciudad donde ocurre la serie Stranger Things?", respuesta: "La ciudad donde ocurre la serie se llama 'Hawkins', un pequeño pueblo ficticio en el estado de Indiana, Estados Unidos"},
+                {pregunta: "¿Cómo se llama la hija de Kratos en God of War?", respuesta: "La hija de Kratos se llama Calíope (Calliope), quien, junto con su madre Lisandra, fue asesinada por Kratos por orden de Ares"},
+                {pregunta: "¿En qué año se lanzó la canción Gangnam Style?", respuesta: "2012"}
+            ],
+            400: [
+                {pregunta: "¿Cuántos diamantes se necesitan para fabricar una armadura completa de diamante?", respuesta: "24 diamantes"},
+                {pregunta: "¿Cuántos lados tiene un icosaedro regular?", respuesta: "20 lados"},
+                {pregunta: "Di 6 películas animadas de Disney diferentes en 10 segundos.", respuesta: "Ejemplo: Frozen, Coco, Moana, Zootopia, Mulan, Aladdin"},
+                {pregunta: "¿Cómo se llamaba la hija de Joel del juego (The Last Of Us)?", respuesta: "Sarah"},
+                {pregunta: "¿Cuál es el nombre real del cantante conocido como Bad Bunny?", respuesta: "Benito Antonio Martínez Ocasio"}
+            ],
+            500: [
+                {pregunta: "¿Cuántos lingotes de hierro se necesitan en total para fabricar un yunque completo?", respuesta: "31 lingotes (3 bloques de hierro = 27 lingotes + 4 lingotes)"},
+                {pregunta: "¿Cuántos elementos químicos tenía la tabla periódica en el año 2024?", respuesta: "118 elementos"},
+                {pregunta: "¿Cómo se llama el actor que interpreta a Rick Grimes en The Walking Dead?", respuesta: "Andrew Lincoln"},
+                {pregunta: "¿Cómo se llama el villano principal del videojuego Minecraft: Story Mode?", respuesta: " Wither Storm"},
+                {pregunta: "¿Cuántos integrantes tenía la banda original The Beatles?", respuesta: "4 integrantes"}
+            ]
+        }
+    },
+};
+let estadoPregunta = "pregunta"; // estados: "pregunta", "respuesta"
+
+function mostrarPregunta(preguntaObj, boton) {
+    let preguntaContainer = document.getElementById("preguntaContainer");
+    let contenedorPrincipal = document.getElementById("contenedorPrincipal");
+    let botonSiguiente = document.getElementById("botonSiguiente");
+
+    // Deshabilitar el botón para que no se pueda volver a clickear
+    boton.disabled = true;
+    boton.style.visibility = "hidden";
+    boton.style.cursor = "not-allowed";
+
+    // Detectar si es imagen o texto
+    let preguntaTexto = document.getElementById("preguntaTexto");
+    preguntaTexto.innerHTML = "";
+    if (preguntaObj.pregunta.endsWith(".png") || 
+        preguntaObj.pregunta.endsWith(".jpg") || 
+        preguntaObj.pregunta.endsWith(".webp")) {
+        let img = document.createElement("img");
+        img.src = preguntaObj.pregunta;
+        img.style.maxWidth = "300px";
+        img.style.maxHeight = "300px";
+        img.style.borderRadius = "10px";
+        preguntaTexto.appendChild(img);
+    } else {
+        preguntaTexto.textContent = preguntaObj.pregunta;
+    }
+
+    // Guardar la respuesta
+    preguntaContainer.dataset.respuesta = preguntaObj.respuesta;
+
+    // Mostrar contenedor de pregunta
+    preguntaContainer.style.display = "block";
+    setTimeout(() => preguntaContainer.classList.add("pregunta-activa"), 10);
+    contenedorPrincipal.classList.remove("contenedor-activo");
+    setTimeout(() => contenedorPrincipal.style.display = "none", 300);
+
+    estadoPregunta = "pregunta";
+
+    // Contador de preguntas
+    preguntasRestantes--;
+    if (preguntasRestantes === 0) {
+        setTimeout(() => { botonSiguiente.style.display = "flex"; }, 500);
+    }
+}
+
+
+
+
+
+function revelarRespuesta() {
+    let preguntaContainer = document.getElementById("preguntaContainer");
+    let respuesta = preguntaContainer.dataset.respuesta;
+
+    // Mostrar la respuesta
+    document.getElementById("preguntaTexto").textContent = respuesta;
+
+    // Ocultar el botón "Revelar" y mostrar "Volver"
+    document.getElementById("botonRevelar").classList.add("hidden");
+    document.getElementById("botonVolver").classList.remove("hidden");
+}
+
+
+function volver() {
+    let preguntaContainer = document.getElementById("preguntaContainer");
+    let contenedorPrincipal = document.getElementById("contenedorPrincipal");
+
+    // Resetear botones para la siguiente pregunta
+    document.getElementById("botonRevelar").classList.remove("hidden");
+    document.getElementById("botonVolver").classList.add("hidden");
+
+    // Animación de salida de la pregunta
+    preguntaContainer.classList.remove("pregunta-activa");
+
+    setTimeout(() => {
+        preguntaContainer.style.display = "none";
+
+        // Mostrar el tablero de nuevo
+        contenedorPrincipal.style.display = "flex";
+        setTimeout(() => contenedorPrincipal.classList.add("contenedor-activo"), 10);
+    }, 300);
+}
+
+
+function mostrarSiguienteCategoria() {
+    let categorias = preguntasRondas[ronda].categorias;
+    let botonSiguiente = document.getElementById("botonSiguiente");
+
+    // Ocultar la tabla para que no se vea detrás
+    contenedorPrincipal.style.display = "none"; 
+
+    botonSiguiente.style.display = "none";
+
+    if (categoriaIndex < categorias.length) {
+        let textoCategoria = categorias[categoriaIndex];
+        categoriaFullscreen.classList.remove("hidden");
+
+        // Animación de escritura
+        categoriaFullscreen.textContent = ""; // Borra el texto anterior
+        escribirTextoGradualmente(categoriaFullscreen, textoCategoria);
+
+        categoriaIndex++;
+    } else {
+        categoriaFullscreen.classList.add("hidden");
+        contenedorPrincipal.style.display = "flex";
+
+        setTimeout(generarTablero, 300);
+    }
+}
+
+
+        // 🔹 Función que escribe el texto letra por letra
+        function escribirTextoGradualmente(elemento, texto, velocidad = 50) {
+            let i = 0;
+            elemento.textContent = ""; // Borra el texto anterior
+
+            let intervalo = setInterval(() => {
+                if (i < texto.length) {
+                    elemento.textContent += texto[i];
+                    i++;
+                } else {
+                    clearInterval(intervalo); // Detiene la animación cuando termina
+                }
+            }, velocidad);
+        }
+
+
+        let preguntasRestantes = 0; // Contador de preguntas restantes
+
+        function generarTablero() {
+            let categoriasGrid = document.getElementById("categoriasGrid");
+            let puntosGrid = document.getElementById("puntosGrid");
+            let contenedorPrincipal = document.getElementById("contenedorPrincipal");
+
+            categoriasGrid.innerHTML = "";
+            puntosGrid.innerHTML = "";
+            contenedorPrincipal.style.display = "flex";
+
+            setTimeout(() => {
+                contenedorPrincipal.classList.add("contenedor-activo");
+            }, 10);
+
+            let datos = preguntasRondas[ronda];
+            preguntasRestantes = 0; // Reiniciar el contador
+
+            datos.categorias.forEach(categoria => {
+                let div = document.createElement("div");
+                div.className = "categoria";
+                div.textContent = categoria;
+                categoriasGrid.appendChild(div);
+            });
+
+let niveles = [100, 200, 300, 400, 500]; // los posibles puntos
+niveles.forEach(puntos => {
+    if (datos.preguntas[puntos]) { // Solo si existen preguntas para ese nivel
+        datos.preguntas[puntos].forEach((pregunta, i) => {
+            let boton = document.createElement("button");
+            boton.className = "puntos";
+            boton.textContent = puntos;
+            boton.onclick = () => mostrarPregunta(pregunta, boton);
+            puntosGrid.appendChild(boton);
+            preguntasRestantes++;
+        });
+    }
+});
+
+document.getElementById("preguntaContainer").addEventListener("click", () => {
+    let preguntaContainer = document.getElementById("preguntaContainer");
+    let contenedorPrincipal = document.getElementById("contenedorPrincipal");
+
+    if (estadoPregunta === "pregunta") {
+        // Mostrar la respuesta
+        let respuesta = preguntaContainer.dataset.respuesta;
+        // Si quieres mostrar imagen también, aquí agregas lógica
+        preguntaContainer.querySelector("#preguntaTexto").textContent = respuesta;
+
+        estadoPregunta = "respuesta"; // ✅ cambiar estado a "respuesta"
+    } else if (estadoPregunta === "respuesta") {
+        // Volver al tablero
+        preguntaContainer.classList.remove("pregunta-activa");
+        setTimeout(() => {
+            preguntaContainer.style.display = "none";
+            contenedorPrincipal.style.display = "flex";
+            setTimeout(() => contenedorPrincipal.classList.add("contenedor-activo"), 10);
+        }, 300);
+
+        estadoPregunta = "pregunta"; // ✅ reiniciar estado para la siguiente pregunta
+    }
+});
+
+
+            // Asegurar que el botón de "Siguiente Ronda" esté oculto hasta que se respondan todas las preguntas
+            document.getElementById("botonSiguiente").style.display = "none";
+        }
+
+
+function nuevaRonda() {
+    // Redirigir a la siguiente ronda
+    window.location.href = "ronda2.html";
+                // 🔹 Ocultar la tabla antes de mostrar las nuevas categorías
+            contenedorPrincipal.style.display = "none";
+            botonSiguiente.style.display = "none";
+
+            categoriaFullscreen.classList.remove("hidden");
+            mostrarSiguienteCategoria();
+}
+    </script>
+</body>
+
+</html>
+
+
