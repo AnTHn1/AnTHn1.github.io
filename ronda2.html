@@ -141,6 +141,13 @@
     font-size: 32px; /* antes 20px */
     line-height: 1.4;
 }
+/* SOLO controla el tamaño de las imágenes de preguntas/respuestas */
+#preguntaTexto img {
+    width: 500px;      /* ⬅ cambia este valor */
+    max-width: 90vw;   /* evita que se salga de la pantalla */
+    height: auto;
+}
+
         /* 🔹 Clase para activar la animación */
         .pregunta-activa {
             opacity: 1;
@@ -189,6 +196,25 @@
         .boton-siguiente:hover {
             background: #D32F2F;
         }
+    
+                /* 🔥 Animación de salto / zoom de la respuesta */
+@keyframes zoomPop {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.respuesta-pop {
+    animation: zoomPop 0.6s ease-out;
+}
+/* Se aplica SOLO cuando se muestra la respuesta */
     </style>
 </head>
 <body>
@@ -200,7 +226,7 @@
     <div class="grid" id="puntosGrid"></div>
 </div>
 
-<button class="boton-siguiente" id="botonSiguiente" onclick="alert('¡Fin del juego!')">Siguiente Ronda</button>
+<button class="boton-siguiente" id="botonSiguiente" onclick="alert('¡Fin del juego!')">JUEGO TERMINADO</button>
 
 <div class="pregunta-container" id="preguntaContainer">
     <p class="pregunta-texto" id="preguntaTexto"></p>
@@ -219,37 +245,37 @@ let preguntasRondas = {
         preguntas: {
             100: [
                 {pregunta: "Palabra incompleta: “P__ra”", respuesta: "Piedra"},
-                {pregunta: "¿Qué se estrenó primero, Frozen o Coco?", respuesta: "Frozen (2013)"},
-                {pregunta: "Un niño ordinario descubre un mundo digital paralelo...", respuesta: "Digimon"},
-                {pregunta: "Despacito, quiero respirar tu cuello despacito...", respuesta: "Letra de la canción 'Despacito'"},
+                {pregunta: "¿Qué se estrenó primero, Frozen o Coco?", respuesta: "Frozen se estrenó mucho antes que Coco; Frozen (2013), mientras que Coco (2017)"},
+                {pregunta: "Un niño ordinario descubre un mundo digital paralelo donde criaturas llamadas Dig... necesitan su ayuda. Forma un vínculo especial con su Dig... y juntos enfrentan enemigos para salvar ambos mundos...", respuesta: "img/animes_series/digimon.jpg"},
+                {pregunta: "Despacito, quiero respirar tu cuello despacito...", respuesta: "'Despacito' Canción de Luis Fonsi"},
                 {pregunta: "img/paises/peru.png", respuesta: "Peruano" }
             ],
             200: [
                 {pregunta: "Palabra incompleta: “Re__j”", respuesta: "Reloj"},
-                {pregunta: "¿Qué videojuego se lanzó primero, Minecraft o Terraria?", respuesta: "Minecraft (2009)"},
-                {pregunta: "Una chica normal descubre que es una guerrera mágica...", respuesta: "Sailor Moon"},
-                {pregunta: "Ella es la favorita, la que canta en la zona...", respuesta: "Referencia a canción"},
+                {pregunta: "¿Qué videojuego se lanzó primero, Minecraft o Terraria?", respuesta: "Minecraft se publicó en mayo de 2009, mientras que Terraria salió más tarde, en mayo de 2011"},
+                {pregunta: "Una chica normal descubre que es una guerrera mágica. Con un grupo de amigas también con poderes, lucha contra fuerzas malignas que amenazan la Tierra mientras aprende sobre amistad y amor....", respuesta: "img/animes_series/sailormoon.jpg"},
+                {pregunta: "Ella es la favorita, la que canta en la zona Se mueve en su cadera como un barco en las olas Tiene los pies descalzos como un niño que adora Y sus cabellos largos son un sol que te antoja...", respuesta: "'La bicicleta' Canción de Carlos Vives y Shakira"},
                 {pregunta: "img/paises/colombia.jpg", respuesta: "Colombiano" }
             ],
             300: [
                 {pregunta: "Palabra incompleta: “_g_pc_o”", respuesta: "Egipcio"},
-                {pregunta: "¿Qué creador subió su primer video primero, Rubius o AuronPlay?", respuesta: "Rubius (2006)"},
-                {pregunta: "Un grupo de supervivientes lucha tras un apocalipsis zombi...", respuesta: "The Walking Dead"},
-                {pregunta: "Cuenta la gente que un dia el papá Fue a visitarlo sin avisar...", respuesta: "Fragmento de canción o historia"},
+                {pregunta: "¿Qué creador subió su primer video primero, Rubius o AuronPlay?", respuesta: "El Rubius creó su canal y subió su primer video público en 2006 (específicamente en diciembre), mientras que AuronPlay comenzó su canal en YouTube alrededor de 2008"},
+                {pregunta: "Un grupo de supervivientes lucha por sobrevivir tras un apocalipsis zombi, enfrentando decisiones difíciles, enemigos humanos y dilemas morales.", respuesta: "img/animes_series/TheWalkingDead.jpg"},
+                {pregunta: "Cuenta la gente que un dia el papá Fue a visitarlo sin avisar, vaya que error Y una mujer le habló al pasar Le dijo hola, qué tal papá, ¿cómo te va? No me conoces yo soy...", respuesta: "'El gran varón' Canción de Willie Colón "},
                 {pregunta: "img/paises/guatemala.png", respuesta: "Guatemalteco" }
             ],
             400: [
                 {pregunta: "Palabra incompleta: “Co__p__ía”", respuesta: "Compañía"},
-                {pregunta: "¿Qué red social se lanzó primero, Instagram o Snapchat?", respuesta: "Instagram (2010)"},
-                {pregunta: "Un grupo de superhéroes adolescentes lucha contra villanos...", respuesta: "Teen Titans"},
-                {pregunta: "Skinhead, deadhead, everybody gone bad...", respuesta: "Fragmento de canción"},
+                {pregunta: "¿Qué red social se lanzó primero, Instagram o Snapchat?", respuesta: "Instagram se lanzó en octubre de 2010 y Snapchat un poco después, en septiembre de 2011"},
+                {pregunta: "Un grupo de superhéroes adolescentes lucha contra villanos poderosos, mientras desarrollan sus habilidades, mantienen secretos y enfrentan problemas personales...", respuesta: "img/animes_series/teentitans.jpg"},
+                {pregunta: "Skinhead, deadhead, everybody gone bad Situation aggravation, everybody, allegation In the suite, on the news, everybody, dog food Bang-bang, shock dead, everybody's gone mad...", respuesta: "'They Don't Care About Us' Canción de Michael Jackson"},
                 {pregunta: "img/paises/luxenburgo.png", respuesta: "Luxemburgués" }
             ],
             500: [
                 {pregunta: "Palabra incompleta: “M____a_a”", respuesta: "Montaña"},
-                {pregunta: "¿Qué consola se lanzó primero, PlayStation 5 o Xbox Series X?", respuesta: "Xbox Series X (10 nov 2020) vs PS5 (19 nov 2020)"},
-                {pregunta: "Un grupo de niños y niñas con mascotas especiales viajan por distintos mundos...", respuesta: "Pokémon"},
-                {pregunta: "Siempre la misma rutina...", respuesta: "Fragmento de canción"},
+                {pregunta: "¿Qué consola se lanzó primero, PlayStation 5 o Xbox Series X?", respuesta: "La Xbox Series X se lanzó primero, el 10 de noviembre de 2020, y la PlayStation 5 la siguió unos días después, el 19 de noviembre de 2020"},
+                {pregunta: "Un grupo de niños y niñas con mascotas especiales viajan por distintos mundos y enfrentan villanos que quieren dominar el universo, usando estrategias, amistad y poderes únicos para proteger a todos.", respuesta: "img/animes_series/pokemon.jpg"},
+                {pregunta: "Siempre la misma rutina Nos vemos por las esquinas Evitando el qué dirán Mi cuerpo no se acostumbra A este amor entre penumbras Que es más fuerte que un volcán...", respuesta: "'Escándalo' Canción de Raphael"},
                 {pregunta: "img/paises/maldivas.jpg", respuesta: "Maldivo" }
             ]
         }
@@ -259,6 +285,7 @@ let preguntasRondas = {
 // 🔹 Reutiliza las mismas funciones JS que en ronda1.html: mostrarPregunta, mostrarSiguienteCategoria, generarTablero, etc.
 
 let estadoPregunta = "pregunta"; // estados: "pregunta", "respuesta"
+let animacionCategoriaActiva = false;
 
 function mostrarPregunta(preguntaObj, boton) {
     let preguntaContainer = document.getElementById("preguntaContainer");
@@ -278,9 +305,6 @@ function mostrarPregunta(preguntaObj, boton) {
         preguntaObj.pregunta.endsWith(".webp")) {
         let img = document.createElement("img");
         img.src = preguntaObj.pregunta;
-        img.style.maxWidth = "300px";
-        img.style.maxHeight = "300px";
-        img.style.borderRadius = "10px";
         preguntaTexto.appendChild(img);
     } else {
         preguntaTexto.textContent = preguntaObj.pregunta;
@@ -343,42 +367,54 @@ function volver() {
 
 
         function mostrarSiguienteCategoria() {
-            let categorias = preguntasRondas[ronda].categorias;
-            let botonSiguiente = document.getElementById("botonSiguiente");
+    // 🚫 Bloquear si ya hay una animación en curso
+    if (animacionCategoriaActiva) return;
 
-            botonSiguiente.style.display = "none";
+    animacionCategoriaActiva = true;
 
-            if (categoriaIndex < categorias.length) {
-                let textoCategoria = categorias[categoriaIndex];
-                categoriaFullscreen.classList.remove("hidden");
+    let categorias = preguntasRondas[ronda].categorias;
+    let botonSiguiente = document.getElementById("botonSiguiente");
 
-                // 🔹 Animación de escritura
-                categoriaFullscreen.textContent = ""; // Borra el texto anterior
-                escribirTextoGradualmente(categoriaFullscreen, textoCategoria);
+    contenedorPrincipal.style.display = "none";
+    botonSiguiente.style.display = "none";
 
-                categoriaIndex++;
-            } else {
-                categoriaFullscreen.classList.add("hidden");
-                contenedorPrincipal.style.display = "flex";
+    if (categoriaIndex < categorias.length) {
+        let textoCategoria = categorias[categoriaIndex];
+        categoriaFullscreen.classList.remove("hidden");
 
-                setTimeout(generarTablero, 300);
-            }
-        }
+        categoriaFullscreen.textContent = "";
+        escribirTextoGradualmente(categoriaFullscreen, textoCategoria, 50, () => {
+            // ✅ cuando termina la animación, se permite el siguiente click
+            animacionCategoriaActiva = false;
+        });
+
+        categoriaIndex++;
+    } else {
+        categoriaFullscreen.classList.add("hidden");
+        contenedorPrincipal.style.display = "flex";
+
+        setTimeout(generarTablero, 300);
+        animacionCategoriaActiva = false;
+    }
+}
+
 
         // 🔹 Función que escribe el texto letra por letra
-        function escribirTextoGradualmente(elemento, texto, velocidad = 50) {
-            let i = 0;
-            elemento.textContent = ""; // Borra el texto anterior
+function escribirTextoGradualmente(elemento, texto, velocidad = 50, callback) {
+    let i = 0;
+    elemento.textContent = "";
 
-            let intervalo = setInterval(() => {
-                if (i < texto.length) {
-                    elemento.textContent += texto[i];
-                    i++;
-                } else {
-                    clearInterval(intervalo); // Detiene la animación cuando termina
-                }
-            }, velocidad);
+    let intervalo = setInterval(() => {
+        if (i < texto.length) {
+            elemento.textContent += texto[i];
+            i++;
+        } else {
+            clearInterval(intervalo);
+            if (callback) callback(); // ✅ avisa que terminó
         }
+    }, velocidad);
+}
+
 
 
         let preguntasRestantes = 0; // Contador de preguntas restantes
@@ -423,26 +459,50 @@ niveles.forEach(puntos => {
 document.getElementById("preguntaContainer").addEventListener("click", () => {
     let preguntaContainer = document.getElementById("preguntaContainer");
     let contenedorPrincipal = document.getElementById("contenedorPrincipal");
+    let texto = preguntaContainer.querySelector("#preguntaTexto");
 
     if (estadoPregunta === "pregunta") {
-        // Mostrar la respuesta
+        // Mostrar respuesta
         let respuesta = preguntaContainer.dataset.respuesta;
-        // Si quieres mostrar imagen también, aquí agregas lógica
-        preguntaContainer.querySelector("#preguntaTexto").textContent = respuesta;
 
-        estadoPregunta = "respuesta"; // ✅ cambiar estado a "respuesta"
+        // Limpiar contenido previo
+        texto.innerHTML = "";
+
+        // 🔍 Detectar si la respuesta es imagen
+        if (
+            respuesta.endsWith(".png") ||
+            respuesta.endsWith(".jpg") ||
+            respuesta.endsWith(".webp")
+        ) {
+            let img = document.createElement("img");
+            img.src = respuesta;
+
+            texto.appendChild(img);
+        } else {
+            texto.textContent = respuesta;
+        }
+
+        // 🔥 reiniciar animación pop
+        texto.classList.remove("respuesta-pop");
+        void texto.offsetWidth; // reinicia animación
+        texto.classList.add("respuesta-pop");
+
+        estadoPregunta = "respuesta";
+
     } else if (estadoPregunta === "respuesta") {
         // Volver al tablero
         preguntaContainer.classList.remove("pregunta-activa");
+
         setTimeout(() => {
             preguntaContainer.style.display = "none";
             contenedorPrincipal.style.display = "flex";
             setTimeout(() => contenedorPrincipal.classList.add("contenedor-activo"), 10);
         }, 300);
 
-        estadoPregunta = "pregunta"; // ✅ reiniciar estado para la siguiente pregunta
+        estadoPregunta = "pregunta";
     }
 });
+
 
 
             // Asegurar que el botón de "Siguiente Ronda" esté oculto hasta que se respondan todas las preguntas

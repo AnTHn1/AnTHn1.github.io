@@ -8,7 +8,7 @@
         rel="stylesheet">
 
     <title>Trivia</title>
-    <style>
+ <style>
         body {
             font-family: 'Signika Negative', sans-serif;
             text-align: center;
@@ -140,10 +140,18 @@
     transform: translate(-50%, 100vh);
     transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
+
 .pregunta-texto {
     font-size: 32px; /* antes 20px */
     line-height: 1.4;
 }
+/* SOLO controla el tamaño de las imágenes de preguntas/respuestas */
+#preguntaTexto img {
+    width: 500px;      /* ⬅ cambia este valor */
+    max-width: 90vw;   /* evita que se salga de la pantalla */
+    height: auto;
+}
+
         /* 🔹 Clase para activar la animación */
         .pregunta-activa {
             opacity: 1;
@@ -192,6 +200,25 @@
         .boton-siguiente:hover {
             background: #D32F2F;
         }
+    
+                /* 🔥 Animación de salto / zoom de la respuesta */
+@keyframes zoomPop {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.respuesta-pop {
+    animation: zoomPop 0.6s ease-out;
+}
+/* Se aplica SOLO cuando se muestra la respuesta */
     </style>
 </head>
 
@@ -223,35 +250,35 @@ let preguntasRondas = {
         categorias: ["Crafteador\nMatematico", "Cultura\nGeneral", "Pantalla\nMaestra", "Íconos\ndel\nGaming", "Hits\nHistoricos"],
         preguntas: {
             100: [
-                {pregunta: "¿Cuántos palos se necesitan para fabricar 1 pico de madera?", respuesta: "2 palos"},
-                {pregunta: "¿Cuántos continentes hay en el mundo según el modelo más aceptado actualmente?", respuesta: "7 continentes"},
-                {pregunta: "¿Cómo se llama el protagonista de la serie Breaking Bad?", respuesta: "Walter White"},
-                {pregunta: "¿Cómo se llama el personaje principal de la saga The Legend of Zelda?", respuesta: "Link"},
-                {pregunta: "¿Quién es conocido como el “Rey del Pop”?", respuesta: "Michael Jackson"}
+                {pregunta: "¿Cuántos palos se necesitan para fabricar 1 pico de madera?", respuesta: "img/minecraft/picodemadera.png"},
+                {pregunta: "¿Cuántos continentes hay en el mundo según el modelo más aceptado actualmente?", respuesta: "El modelo más aceptado globalmente, especialmente en el mundo hispanohablante y por organismos como la ONU, considera siete continentes: Asia, África, América del Norte, América del Sur, Antártida, Europa y Oceanía (Australia)"},
+                {pregunta: "¿Cómo se llama el protagonista de la serie Breaking Bad?", respuesta: "El personaje principal de Breaking Bad es 'Walter White', interpretado por Bryan Cranston"},
+                {pregunta: "¿Cómo se llama el personaje principal de la saga The Legend of Zelda?", respuesta: "El personaje principal de la saga The Legend of Zelda se llama Link, el héroe de Hyrule"},
+                {pregunta: "¿Quién es conocido como el “Rey del Pop”?", respuesta: "El Rey del Pop es Michael Jackson, una figura icónica y un fenómeno cultural"}
             ],
             200: [
-                {pregunta: "¿Cuántos lingotes de hierro se necesitan para fabricar 3 tijeras?", respuesta: "6 lingotes"},
-                {pregunta: "¿En qué año llegó el ser humano por primera vez a la Luna?", respuesta: "1969"},
-                {pregunta: "¿Cuántas películas tiene la saga Rápidos y Furiosos hasta hoy?", respuesta: "11 películas"},
-                {pregunta: "¿En qué videojuego aparece por primera vez Mario?", respuesta: "Donkey Kong"},
-                {pregunta: "¿Qué banda interpretó la canción Bohemian Rhapsody?", respuesta: "Queen"}
+                {pregunta: "¿Cuántos lingotes de hierro se necesitan para fabricar 3 tijeras?", respuesta: "img/minecraft/tijeras.png"},
+                {pregunta: "¿En qué año llegó el ser humano por primera vez a la Luna?", respuesta: "El hombre llegó a la Luna por primera vez en 1969, específicamente el 20 de julio, con la misión Apolo 11 de la NASA"},
+                {pregunta: "¿Cuántas películas tiene la saga Rápidos y Furiosos hasta hoy?", respuesta: "Hasta hoy, la saga Rápidos y Furiosos cuenta con 11 películas estrenadas (contando el spin-off Hobbs & Shaw), con Fast X (la décima entrega principal)"},
+                {pregunta: "¿En qué videojuego aparece por primera vez Mario?", respuesta: "Mario aparece por primera vez en el videojuego arcade Donkey Kong en 1981, donde era un carpintero llamado 'Jumpman'"},
+                {pregunta: "¿Qué banda interpretó la canción Bohemian Rhapsody?", respuesta: "La canción 'Bohemian Rhapsody' fue interpretada por la legendaria banda británica de rock Queen"}
             ],
             300: [
-                {pregunta: "¿Cuántos lingotes de oro se necesitan para fabricar 3 manzanas doradas normales?", respuesta: "24 lingotes (8 por manzana)"},
+                {pregunta: "¿Cuántos lingotes de oro se necesitan para fabricar 3 manzanas doradas normales?", respuesta: "img/minecraft/manzana.png"},
                 {pregunta: "¿Cuál es el país con mayor población del mundo Actualmente?", respuesta: "Actualmente es La INDIA con casi 1.460 millones de habitantes en el 2026"},
                 {pregunta: "¿Cómo se llama la ciudad donde ocurre la serie Stranger Things?", respuesta: "La ciudad donde ocurre la serie se llama 'Hawkins', un pequeño pueblo ficticio en el estado de Indiana, Estados Unidos"},
-                {pregunta: "¿Cómo se llama la hija de Kratos en God of War?", respuesta: "La hija de Kratos se llama Calíope (Calliope), quien, junto con su madre Lisandra, fue asesinada por Kratos por orden de Ares"},
-                {pregunta: "¿En qué año se lanzó la canción Gangnam Style?", respuesta: "2012"}
+                {pregunta: "¿Cómo se llama la hija de Kratos en God of War?", respuesta: "img/animes_series/Calíope.png"},
+                {pregunta: "¿En qué año se lanzó la canción Gangnam Style?", respuesta: "'Gangnam Style' de PSY fue lanzado en el año 2012, específicamente el 15 de julio"}
             ],
             400: [
-                {pregunta: "¿Cuántos diamantes se necesitan para fabricar una armadura completa de diamante?", respuesta: "24 diamantes"},
-                {pregunta: "¿Cuántos lados tiene un icosaedro regular?", respuesta: "20 lados"},
+                {pregunta: "¿Cuántos diamantes se necesitan para fabricar una armadura completa de diamante?", respuesta: "img/minecraft/armadura.png"},
+                {pregunta: "¿Cuántos lados tiene un icosaedro regular?", respuesta: "Un icosaedro regular tiene 20 lados (caras)"},
                 {pregunta: "Di 6 películas animadas de Disney diferentes en 10 segundos.", respuesta: "Ejemplo: Frozen, Coco, Moana, Zootopia, Mulan, Aladdin"},
-                {pregunta: "¿Cómo se llamaba la hija de Joel del juego (The Last Of Us)?", respuesta: "Sarah"},
+                {pregunta: "¿Cómo se llamaba la hija de Joel del juego (The Last Of Us)?", respuesta: "img/Thelastsofus/sarah.png"},
                 {pregunta: "¿Cuál es el nombre real del cantante conocido como Bad Bunny?", respuesta: "Benito Antonio Martínez Ocasio"}
             ],
             500: [
-                {pregunta: "¿Cuántos lingotes de hierro se necesitan en total para fabricar un yunque completo?", respuesta: "31 lingotes (3 bloques de hierro = 27 lingotes + 4 lingotes)"},
+                {pregunta: "¿Cuántos lingotes de hierro se necesitan en total para fabricar un yunque completo?", respuesta: "img/minecraft/yunque.png"},
                 {pregunta: "¿Cuántos elementos químicos tenía la tabla periódica en el año 2024?", respuesta: "118 elementos"},
                 {pregunta: "¿Cómo se llama el actor que interpreta a Rick Grimes en The Walking Dead?", respuesta: "Andrew Lincoln"},
                 {pregunta: "¿Cómo se llama el villano principal del videojuego Minecraft: Story Mode?", respuesta: " Wither Storm"},
@@ -261,6 +288,7 @@ let preguntasRondas = {
     },
 };
 let estadoPregunta = "pregunta"; // estados: "pregunta", "respuesta"
+let animacionCategoriaActiva = false;
 
 function mostrarPregunta(preguntaObj, boton) {
     let preguntaContainer = document.getElementById("preguntaContainer");
@@ -280,9 +308,6 @@ function mostrarPregunta(preguntaObj, boton) {
         preguntaObj.pregunta.endsWith(".webp")) {
         let img = document.createElement("img");
         img.src = preguntaObj.pregunta;
-        img.style.maxWidth = "300px";
-        img.style.maxHeight = "300px";
-        img.style.borderRadius = "10px";
         preguntaTexto.appendChild(img);
     } else {
         preguntaTexto.textContent = preguntaObj.pregunta;
@@ -312,15 +337,28 @@ function mostrarPregunta(preguntaObj, boton) {
 
 function revelarRespuesta() {
     let preguntaContainer = document.getElementById("preguntaContainer");
+    let preguntaTexto = document.getElementById("preguntaTexto");
+
     let respuesta = preguntaContainer.dataset.respuesta;
 
-    // Mostrar la respuesta
-    document.getElementById("preguntaTexto").textContent = respuesta;
+    preguntaTexto.innerHTML = "";
 
-    // Ocultar el botón "Revelar" y mostrar "Volver"
-    document.getElementById("botonRevelar").classList.add("hidden");
-    document.getElementById("botonVolver").classList.remove("hidden");
+    // 🔍 Detectar si es imagen
+    if (
+        respuesta.endsWith(".png") ||
+        respuesta.endsWith(".jpg") ||
+        respuesta.endsWith(".webp")
+    ) {
+        let img = document.createElement("img");
+        img.src = respuesta;
+        preguntaTexto.appendChild(img);
+    } else {
+        preguntaTexto.textContent = respuesta;
+    }
+
+    estadoPregunta = "respuesta";
 }
+
 
 
 function volver() {
@@ -345,21 +383,26 @@ function volver() {
 
 
 function mostrarSiguienteCategoria() {
+    // 🚫 Bloquear si ya hay una animación en curso
+    if (animacionCategoriaActiva) return;
+
+    animacionCategoriaActiva = true;
+
     let categorias = preguntasRondas[ronda].categorias;
     let botonSiguiente = document.getElementById("botonSiguiente");
 
-    // Ocultar la tabla para que no se vea detrás
-    contenedorPrincipal.style.display = "none"; 
-
+    contenedorPrincipal.style.display = "none";
     botonSiguiente.style.display = "none";
 
     if (categoriaIndex < categorias.length) {
         let textoCategoria = categorias[categoriaIndex];
         categoriaFullscreen.classList.remove("hidden");
 
-        // Animación de escritura
-        categoriaFullscreen.textContent = ""; // Borra el texto anterior
-        escribirTextoGradualmente(categoriaFullscreen, textoCategoria);
+        categoriaFullscreen.textContent = "";
+        escribirTextoGradualmente(categoriaFullscreen, textoCategoria, 50, () => {
+            // ✅ cuando termina la animación, se permite el siguiente click
+            animacionCategoriaActiva = false;
+        });
 
         categoriaIndex++;
     } else {
@@ -367,24 +410,28 @@ function mostrarSiguienteCategoria() {
         contenedorPrincipal.style.display = "flex";
 
         setTimeout(generarTablero, 300);
+        animacionCategoriaActiva = false;
     }
 }
 
 
-        // 🔹 Función que escribe el texto letra por letra
-        function escribirTextoGradualmente(elemento, texto, velocidad = 50) {
-            let i = 0;
-            elemento.textContent = ""; // Borra el texto anterior
 
-            let intervalo = setInterval(() => {
-                if (i < texto.length) {
-                    elemento.textContent += texto[i];
-                    i++;
-                } else {
-                    clearInterval(intervalo); // Detiene la animación cuando termina
-                }
-            }, velocidad);
+        // 🔹 Función que escribe el texto letra por letra
+function escribirTextoGradualmente(elemento, texto, velocidad = 50, callback) {
+    let i = 0;
+    elemento.textContent = "";
+
+    let intervalo = setInterval(() => {
+        if (i < texto.length) {
+            elemento.textContent += texto[i];
+            i++;
+        } else {
+            clearInterval(intervalo);
+            if (callback) callback(); // ✅ avisa que terminó
         }
+    }, velocidad);
+}
+
 
 
         let preguntasRestantes = 0; // Contador de preguntas restantes
@@ -429,26 +476,50 @@ niveles.forEach(puntos => {
 document.getElementById("preguntaContainer").addEventListener("click", () => {
     let preguntaContainer = document.getElementById("preguntaContainer");
     let contenedorPrincipal = document.getElementById("contenedorPrincipal");
+    let texto = preguntaContainer.querySelector("#preguntaTexto");
 
     if (estadoPregunta === "pregunta") {
-        // Mostrar la respuesta
+        // Mostrar respuesta
         let respuesta = preguntaContainer.dataset.respuesta;
-        // Si quieres mostrar imagen también, aquí agregas lógica
-        preguntaContainer.querySelector("#preguntaTexto").textContent = respuesta;
 
-        estadoPregunta = "respuesta"; // ✅ cambiar estado a "respuesta"
+        // Limpiar contenido previo
+        texto.innerHTML = "";
+
+        // 🔍 Detectar si la respuesta es imagen
+        if (
+            respuesta.endsWith(".png") ||
+            respuesta.endsWith(".jpg") ||
+            respuesta.endsWith(".webp")
+        ) {
+            let img = document.createElement("img");
+            img.src = respuesta;
+
+            texto.appendChild(img);
+        } else {
+            texto.textContent = respuesta;
+        }
+
+        // 🔥 reiniciar animación pop
+        texto.classList.remove("respuesta-pop");
+        void texto.offsetWidth; // reinicia animación
+        texto.classList.add("respuesta-pop");
+
+        estadoPregunta = "respuesta";
+
     } else if (estadoPregunta === "respuesta") {
         // Volver al tablero
         preguntaContainer.classList.remove("pregunta-activa");
+
         setTimeout(() => {
             preguntaContainer.style.display = "none";
             contenedorPrincipal.style.display = "flex";
             setTimeout(() => contenedorPrincipal.classList.add("contenedor-activo"), 10);
         }, 300);
 
-        estadoPregunta = "pregunta"; // ✅ reiniciar estado para la siguiente pregunta
+        estadoPregunta = "pregunta";
     }
 });
+
 
 
             // Asegurar que el botón de "Siguiente Ronda" esté oculto hasta que se respondan todas las preguntas
